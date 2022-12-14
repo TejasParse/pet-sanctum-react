@@ -144,7 +144,6 @@ form #form_login {
     letter-spacing: 0.5px;
     border-radius: 25px;
     transition: 0.3s;
-    /* margin-right:3rem; */
 }
 .input_login:hover~.label_class_login{
     color:red;

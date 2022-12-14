@@ -191,7 +191,7 @@ html {
     font-family: 'Comfortaa', cursive;
 }
 
-/*Banner */
+
 .top-banner {
     width: 100%;
     background-size: cover;
@@ -273,10 +273,7 @@ html {
     transition: all 0.3s ease-in;
 }
 
-/* .card:hover {
-    border-radius: 0.375rem;
-    width: 105%;
-} */
+
 .card-text {
     color: white;
 }
@@ -359,10 +356,6 @@ html {
     color: white;
 }
 
-/* .end {
-    color: #fff !important;
-    background-color: #000 !important;
-} */
 
 #button-addon2 {
     background-color: var(--primary-color);
