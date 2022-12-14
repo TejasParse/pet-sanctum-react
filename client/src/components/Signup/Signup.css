@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+body{
+    margin: 0;
+    padding: 0;
+    
+}
+
+  .container_signup{
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background-color: rgb(39, 9, 67);
+      /* margin: 1rem; */
+      
+  }
+  .main_signup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 98%;
+    height: 80vh;
+    /* border: 1px solid red; */
+    justify-content: center;
+    /* background-color: transparent; */
+    
+  }
+  .heading_signup {
+    display: flex;
+    width: 100%;
+    
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 3rem;
+    height: 60px;
+    line-height: 40px;
+    font-weight: bold;
+    color: aqua;
+    
+    /* background-color: transparent; */
+    /* border-bottom: 1px solid red; */
+  }
+  .form_signup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+    width: 100%;
+    height:100%;
+    /* background-color: transparent; */
+  }
+  form#signup_form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height:100%;
+    /* background-color: transparent; */
+    
+  }
+  #input_area_signup{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height:100%;
+    /* background-color: transparent; */
+  }
+  .input_signup {
+      width: 100%;
+      display: flex;
+      position: relative;
+      align-items: center;
+      margin:15px 15px;
+      padding:1rem;
+      box-sizing: border-box;
+      line-height: 30px;
+      font-family: "Montserrat";
+      /* border: 2px solid rgb(88, 49, 125);
+    border-radius: 25px; */
+      /* background-color: transparent; */
+      
+  }
+  
+  .input_name_signup {
+      display: flex;
+      flex-direction: column;
+      
+      justify-content: center;
+      align-items: center;
+      width: 33%;
+      height:86%;
+      margin:10px 16px;
+      /* background-color: transparent; */
+  }
+  .input_address {
+      display: flex;
+      flex-direction: column;
+      /* border-left: 1px solid red; */
+      justify-content: center;
+      align-items: center;
+      width: 34%;
+      height:95%;
+      margin:10px 16px;
+      /* background-color: transparent; */
+  }
+  .input_user {
+      display: flex;
+      flex-direction: column;
+      /* border-left: 1px solid red; */
+      justify-content: center;
+      align-items: center;
+      width: 33%;
+      height: 86%;
+      margin:10px 16px;
+      font-family: "Montserrat";
+      /* background-color: transparent; */
+  }
+  label.label_signup {
+    position: absolute;
+    font-size: smaller;
+    width:fit-content;
+    top:10px;
+    left:20px;
+    font-size: 1.2rem;
+    transition:.35s ease-in-out;;
+    cursor: text;
+    font-family: "Montserrat";
+    font-weight:100;
+    
+    margin:5px;
+    
+    color: lime;
+  }
+  input:hover~label.label_signup,
+   input:focus~label.label_signup,
+  input:valid~label.label_signup
+  {
+      font-size: 0.9rem;
+      top:-15px;
+  } 
+  input.input_field_signup{
+      display: flex;
+      width: 100%;
+      height: 30px;
+      border: none;
+      outline: none;
+      font-size: 0.8rem;
+      font-weight: lighter;
+      /* border-bottom: 1px solid red; */
+      border-bottom: 1px solid wheat;
+      box-shadow: 2px;
+      line-height: 30px;
+      padding-left: 5px;
+      /* background-color:#070824 ; */
+      background-color: rgb(39, 9, 67);
+      color: aliceblue;
+      /* color: white; */
+      transition:.35s ease-in-out;;
+      cursor: text;
+  }
+  input.input_field_signup:hover{
+    border-bottom: 2px solid orange;
+  }
+  
+  #btn_signup{
+    
+      min-width: 130px;
+      height:52px;
+      font-size: 19px;
+      font-weight: lighter;
+      cursor: pointer;
+      transition-property: all;
+      transition-duration: 0.35s;
+      transform-style:preserve-3d;
+      transition-timing-function: ease-in-out;
+      /* background-color: red; */
+      background-color: blue;
+      /* color: white; */
+      color: aliceblue;
+      border: none;
+      outline: none;
+      border-radius: 30px;
+      margin-top: 1.5rem;
+  }
+  #btn_signup:hover{
+      /* background: linear-gradient(to bottom,orangered,orange); */
+      background-color: whitesmoke;
+      /* color:black; */
+      color: maroon;
+      font-size: small;
+      font-weight: bolder;
+  }
+  

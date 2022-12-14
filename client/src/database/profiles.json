@@ -1,0 +1,204 @@
+[
+  {
+    "id": "627555cb954f952ff2acdc54",
+    "fname": "Tejas",
+    "lname": "Parse",
+    "phone": {
+      "$numberLong": "6302364800"
+    },
+    "username": "tejasparse",
+    "email": "tejasparse1@gmail.com",
+    "address": "301, Mahaveer Residency, Lane no 9",
+    "state": "Telangana",
+    "zip": 500016,
+    "city": "Hyderabad",
+    "password": "123456789",
+    "imageUrl": "../Resources/images/empty_profile.webp",
+    "isAdmin": 1,
+    "adopted": [
+      {
+        "$oid": "6275570eff6adea9c13bf169"
+      },
+      {
+        "$oid": "627555cb954f952ff2acdc48"
+      },
+      {
+        "$oid": "627555cb954f952ff2acdc4e"
+      }
+    ],
+    "rescued": [
+      {
+        "$oid": "6275570eff6adea9c13bf169"
+      },
+      {
+        "$oid": "6276ba86ac25351d56b22203"
+      },
+      {
+        "$oid": "630c842567d7ec51d538b3db"
+      },
+      {
+        "$oid": "630c845867d7ec51d538b3dd"
+      },
+      {
+        "$oid": "630c8539e6fba15bf62acc2d"
+      },
+      {
+        "$oid": "630c8582365323df191b665d"
+      },
+      {
+        "$oid": "630c85a0365323df191b665f"
+      },
+      {
+        "$oid": "630c8865831de1f7ade6b553"
+      },
+      {
+        "$oid": "630c8a136d4da53344ad3636"
+      },
+      {
+        "$oid": "630c8d82e1986baf6467c16c"
+      },
+      {
+        "$oid": "630c8ea1b5d1f31ea22fe74f"
+      },
+      {
+        "$oid": "630c957c63886421e959f0b6"
+      },
+      {
+        "$oid": "630c964f79f0fa38b7032e0d"
+      },
+      {
+        "$oid": "630c96b42180037192d50501"
+      },
+      {
+        "$oid": "630c97f70f1e040e86a7b52e"
+      },
+      {
+        "$oid": "630c9d3d110834ff1b79780b"
+      },
+      {
+        "$oid": "630c9d51110834ff1b79780d"
+      }
+    ],
+    "__v": 20
+  },
+  {
+    "id": "627555cb954f952ff2acdc55",
+    "fname": "Tanishq",
+    "lname": "Awasthi",
+    "phone": {
+      "$numberLong": "9565557788"
+    },
+    "username": "tanishqawasthi",
+    "email": "tanishq.a20@iiits.in",
+    "address": "12/119, Swaroop Nagar",
+    "state": "Uttar Pradesh",
+    "zip": 208002,
+    "city": "Kanpur",
+    "password": "qwertyuiop",
+    "imageUrl": "../Resources/images/empty_profile.webp",
+    "isAdmin": 1,
+    "adopted": [],
+    "rescued": [],
+    "__v": 0
+  },
+  {
+    "id": "627555cb954f952ff2acdc56",
+    "fname": "Jayanth",
+    "lname": "Korra",
+    "phone": {
+      "$numberLong": "6281892368"
+    },
+    "username": "jayanthkorra",
+    "email": "jayanth.kr20@iiits.in",
+    "address": "12-35/6,DATHUNAGAR",
+    "state": "Telangana",
+    "zip": 500079,
+    "city": "Hyderabad",
+    "password": "Korra@123",
+    "imageUrl": "../Resources/images/empty_profile.webp",
+    "isAdmin": 1,
+    "adopted": [],
+    "rescued": [],
+    "__v": 0
+  },
+  {
+    "id": "627555cb954f952ff2acdc57",
+    "fname": "Sreekar",
+    "lname": "Vankayalapati",
+    "phone": {
+      "$numberLong": "8099751234"
+    },
+    "username": "saisreekar.v20",
+    "email": "saisreekar.v20@iiits.in",
+    "address": "53-17-57/3/1F Seetharamareddy Residency, Maddilapalem, Revenue Ward 10",
+    "state": "Andhra Pradesh",
+    "zip": 530022,
+    "city": "Visakhapatnam",
+    "password": "fsd1project",
+    "imageUrl": "../Resources/images/empty_profile.webp",
+    "isAdmin": 1,
+    "adopted": [],
+    "rescued": [],
+    "__v": 0
+  },
+  {
+    "id": "627555cb954f952ff2acdc58",
+    "fname": "Nitant",
+    "lname": "Kumar",
+    "phone": {
+      "$numberLong": "7488597349"
+    },
+    "username": "nitant",
+    "email": "nitant.k20@iiits.in",
+    "address": "Makwa, Munger",
+    "state": "Bihar",
+    "zip": 813201,
+    "city": "Makwa",
+    "password": "Kuchhnahin",
+    "imageUrl": "../Resources/images/empty_profile.webp",
+    "isAdmin": 1,
+    "adopted": [],
+    "rescued": [],
+    "__v": 0
+  },
+  {
+    "id": "627555cb954f952ff2acdc59",
+    "fname": "Rahul",
+    "lname": "Raj",
+    "phone": {
+      "$numberLong": "8798978978"
+    },
+    "username": "rahulraj",
+    "email": "rahulraj@gmail.com",
+    "address": "Secunderabad, Patna",
+    "state": "Bihar",
+    "zip": 813219,
+    "city": "Patna",
+    "password": "123456789",
+    "imageUrl": "../Resources/images/empty_profile.webp",
+    "isAdmin": 1,
+    "adopted": [],
+    "rescued": [],
+    "__v": 0
+  },
+  {
+    "id": "627555cb954f952ff2acdc5a",
+    "fname": "Gulshan",
+    "lname": "Kumar",
+    "phone": {
+      "$numberLong": "6576776656"
+    },
+    "username": "gulshan",
+    "email": "gulshan@gmail.com",
+    "address": "Electronic city, Bangalore",
+    "state": "Karnataka",
+    "zip": 420202,
+    "city": "Bangalore",
+    "password": "123456789",
+    "imageUrl": "../Resources/images/empty_profile.webp",
+    "isAdmin": 0,
+    "adopted": [],
+    "rescued": [],
+    "__v": 0
+  }
+]

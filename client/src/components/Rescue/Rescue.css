@@ -1,0 +1,52 @@
+.pet-img {
+    border-radius: 50%;
+    background-image: url("./empty_profile.webp");
+    background-size: cover;
+    background-position: center;
+    height: 150px;
+    width: 150px;
+    transition: all 0.5s ease;
+    margin-left: 60px;
+}
+
+.card1 {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    border: none;
+    margin-bottom: 30px;
+}
+
+.upload-btn {
+    background-color: #e5345b !important;
+    color: #fff !important;
+    border-color: #e5345b !important;
+}
+
+.padding {
+    padding: 3rem !important;
+  }
+
+.user-card-full {
+    overflow: hidden;
+}
+
+.user-card-full .user-profile {
+    border-radius: 5px 0 0 5px;
+  }
+
+  .bg-c-lite-green {
+    background: linear-gradient(to right,#f29263, #e5345b );
+}
+
+.user-profile {
+    padding: 20px 0;
+  }
+
+  .card-block {
+    padding: 1.25rem;
+  }
+
+  .m-b-25 {
+  margin-bottom: 25px;
+}

@@ -1,0 +1,81 @@
+hr {
+    size: 8;
+    color: white;
+}
+
+#coverImage_donate {
+    background-image: url('./images/cover_image.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size:cover;
+    height: 465px;
+    background-position: center;
+}
+
+#donate {
+    background-color: white;
+}
+
+.img_donate {
+    transition: all 0.5s ease;
+    opacity: 0.8;
+}
+
+.img_donate:hover {
+    transform: scale(1.2);
+    border-radius: 0 !important;
+    opacity: 1;
+    border: 0;
+}
+
+#coverText_donate {
+    margin-top: 65px;
+}
+
+#donateWays_donate {
+    background-color: rgb(248, 248, 248);
+}
+
+
+.square-box_donate{
+    position: relative;
+    width: 60%;
+    overflow: hidden;
+    margin: 0 auto;
+    border-radius: 50%;
+
+    transition: all 0.3s ease-in;
+}
+
+.square-box_donate:hover {
+    border-radius: 20px;
+    width: 69%;
+}
+
+.square-box_donate:before{
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+.square-content_donate{
+    position:  absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-position: center;
+    background-size: 100% 100%;
+    background-size: cover;
+}
+
+#card1Image {
+    background-image: url("./images/straydog.png");
+}
+
+#card2Image {
+    background-image: url("./images/straydog1.jpg");
+}
+
+#card3Image {
+    background-image: url("./images/straydog2.png");
+}
