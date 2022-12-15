@@ -1,14 +1,7 @@
-Group 9
-
 Project Title- Pet Sanctum
 Pet Sanctum is a pet adoption website.
 
-Team Details-
-Member 1 - Tejas Ajay Parse (S20200010209)
-Member 2 - Tanishq Awasthi (S20200010205)
-Member 3 - V Sai Sreekar (S20200010216)
-Member 4 - Nitant Kumar (S20200010148)
-Member 5 - Jayanth Korra (S20200010101)
+This is a full-stack website made using React that helps users adopt pet animals from the website and at the same time allows users to upload their pet information if they wish to abandon their pet and also apply for the rescue of stray animals.
 
 To install all the node modules, type the following command-
 npm install
