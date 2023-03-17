@@ -33,6 +33,7 @@ let getPets = asyncHandler(async (req, res) => {
     }
 });
 
+// GET
 let getPetById = asyncHandler(async (req, res) => {
 
     let { id } = req.params;
@@ -56,7 +57,25 @@ let getPetById = asyncHandler(async (req, res) => {
     }
 });
 
+// POST
+let addPet = asyncHandler(async (req,res) => {
+
+    console.log(req.body);
+
+    const pet1 = new Pet(req.body);
+
+    await pet1.save();
+
+    res.status(200).json({
+        status: 200,
+        message: pet1,
+        data: pet1
+    })
+
+});
+
 module.exports = {
     getPets,
-    getPetById
+    getPetById,
+    addPet
 };

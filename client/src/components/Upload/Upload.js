@@ -24,7 +24,7 @@ let Upload = (props) => {
         otherpets: "No",
         trained: "No",
         vaccinated: "No",
-        additional: "",
+        additional: " ",
         imageUrl: "https://www.davpetlovers.com/wp-content/uploads/2020/04/IMG_8917.jpg",
         owner: "Team Pet Sanctum",
         phone: "9878788234",
@@ -41,29 +41,30 @@ let Upload = (props) => {
     };
 
     let PostData = ()=>{
-        let temp = new Date().valueOf();
         let formInput1 = {
             ...formInput,
-            id: temp
         }
 
         console.log("Submitted!");
         console.log(formInput1);
 
-        axios.post("http://localhost:3005/Pets", formInput1, {
-            headers: {
-                'Content-Type': 'application/json'
+        axios
+          .post(
+            `${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet`,
+            formInput1,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
             }
-        }
-        )
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-
-        navigate(`/PetInformation/${temp}`)
+          )
+          .then((res) => {
+            console.log(res);
+            navigate(`/PetInformation/${res.data.data._id}`);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
     }
 
     let HandleInputChange = (event) => {

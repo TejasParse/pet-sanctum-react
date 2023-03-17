@@ -16,7 +16,7 @@ const Container1 = (props) => {
 
     let [formInput, changeFormInput] = useState({
         type: "Dog",
-        age: "NA",
+        age: 2,
         sex: "Male",
         otherhumans: "NA",
         otherpets: "NA",
@@ -39,29 +39,33 @@ const Container1 = (props) => {
     };
 
     let PostData = ()=>{
-        let temp = new Date().valueOf();
+
         let formInput1 = {
             ...formInput,
-            id: temp
         }
 
         console.log("Submitted!");
         console.log(formInput1);
 
-        axios.post("http://localhost:3005/Pets", formInput1, {
-            headers: {
-                'Content-Type': 'application/json'
+        axios
+          .post(
+            `${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet`,
+            formInput1,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
             }
-        }
-        )
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+          )
+          .then((res) => {
+            console.log(res);
+            navigate(`/PetInformation/${res.data.data._id}`);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
-        navigate(`/PetInformation/${temp}`)
+        
     }
 
     let HandleInputChange = (event) => {

@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get("/:filter", petControllers.getPets);
 router.get("/petinformation/:id", petControllers.getPetById);
+router.post("/addPet", petControllers.addPet)
 
 
 
