@@ -6,14 +6,15 @@ import './Blogs.css';
 
 function Blogs() {
   let [totalBlog, changeBlogData] = useState([]);
-
+  console.log(process.env.REACT_APP_SERVER_LINK);
   useEffect(() => {
+  
     axios
-      .get("http://localhost:3005/Blogs")
+      .get(`${process.env.REACT_APP_SERVER_LINK}/api/blog/`)
       .then((res) => {
         console.log(res.data);
 
-        changeBlogData(res.data);
+        changeBlogData(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -42,7 +43,7 @@ function Blogs() {
                   <h3> {totalBlog[0].title} </h3>
                   <p>
                     {totalBlog[0].description.substring(0,36)+"..."}
-                    <Link to={`/BlogRead/${totalBlog[0].id}`}>
+                    <Link to={`/BlogRead/${totalBlog[0]._id}`}>
                     Read More
                   </Link>
                   </p>
@@ -59,7 +60,7 @@ function Blogs() {
                   <h3> {totalBlog[1].title} </h3>
                   <p>
                     {totalBlog[1].description.substring(0,36)+"..."}
-                    <Link to={`/BlogRead/${totalBlog[1].id}`}>
+                    <Link to={`/BlogRead/${totalBlog[1]._id}`}>
                     Read More
                   </Link>
                   </p>
@@ -77,7 +78,7 @@ function Blogs() {
                   <h3> {totalBlog[2].title} </h3>
                   <p>
                     {totalBlog[2].description.substring(0,36)+"..."}
-                    <Link to={`/BlogRead/${totalBlog[2].id}`}>
+                    <Link to={`/BlogRead/${totalBlog[2]._id}`}>
                     Read More
                   </Link>
                   </p>
@@ -121,7 +122,7 @@ function Blogs() {
                               {elmt["description"].substring(0, 450) +
                                 "..."}{" "}
                             </p>
-                            <Link className="a_sreekar" to={`/BlogRead/${elmt.id}`}>
+                            <Link className="a_sreekar" to={`/BlogRead/${elmt._id}`}>
                               <Button class="btn btn-outline-primary">
                                 Know More
                               </Button>

@@ -7,56 +7,38 @@ import axios from "axios";
 
 let Adopt = (props) => {
     
-    let data = require("../../database/pets.json");
-    let [totalData, changeTotalData] = useState([]);
-    let [filterState, changeFilter] = useState("all");
-    let [dataShow, changeData] = useState([]);
-    let [isLoad, LoadChange] = useState(true);
+    let [data, changeData] = useState([]);
+
+    let [filter, changeFilter] = useState("all");
 
     useEffect(()=>{
         
-        axios.get("http://localhost:3005/Pets")
-            .then(res=>{
-                data = res.data;
-                console.log(res.data);
-                changeData(res.data);
-                changeTotalData(res.data);
-            })
-            .catch(err=>{
-                console.log(err);
-            })
+       
+        axios
+          .get(`${process.env.REACT_APP_SERVER_LINK}/api/pet/${filter}`)
+          .then((res) => {
+            data = res.data;
+            console.log(data.data);
+            changeData(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
-    },[])
+    },[filter])
 
-
-    useEffect(()=>{
-        LoadChange(true)
-        if(filterState == "all") {
-            changeData(totalData)
-            LoadChange(false)
-            return;
-        }
-        let temp = totalData.filter((elmt, index)=>{
-            return elmt.type.toLowerCase()==filterState;
-        });
-
-        LoadChange(false)
-
-        console.log(temp);
-        changeData(temp)
-    },[filterState, totalData]);
 
     let onChangeFilter = (event)=>{
 
         console.log(event.target.id);
-        changeFilter(event.target.id.toLowerCase())
+        changeFilter(event.target.id)
 
     };
 
     return (
         <div>
             <SearchBar/>
-            <Filters onChangeFilter = {onChangeFilter} currentFilter = {filterState} />
+            <Filters onChangeFilter = {onChangeFilter} currentFilter = {filter} />
             <div id="cards1" className="py-4">
                 <div className="container">
                     <div className="title text-center">
@@ -66,9 +48,8 @@ let Adopt = (props) => {
                         
                         <div className="container">
 
-                            { isLoad && <h3>Loading!</h3>}
-                            { !isLoad && dataShow.length != 0 && <ListPets dataShow={dataShow}/>}
-                            { !isLoad && dataShow.length == 0 && <h3>No Pets Available</h3>}
+                            { data.length==0 && <h3>Loading!</h3>}
+                            { data.length !== 0 && <ListPets dataShow={data}/>}
                             
 
                         </div>

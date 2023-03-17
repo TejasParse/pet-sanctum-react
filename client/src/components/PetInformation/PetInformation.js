@@ -9,14 +9,15 @@ const PetInformation = (props) => {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:3005/Pets/${temp.id}`)
-            .then(res => {
-                console.log(res.data);
-                setData(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        axios
+          .get(`${process.env.REACT_APP_SERVER_LINK}/api/pet/petinformation/${temp.id}`)
+          .then((res) => {
+            console.log(res.data);
+            setData(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
     }, []);
     return (

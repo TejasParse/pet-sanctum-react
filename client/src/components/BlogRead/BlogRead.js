@@ -12,11 +12,11 @@ function BlogRead(props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3005/Blogs/${temp.id}`)
+      .get(`${process.env.REACT_APP_SERVER_LINK}/api/blog/${temp.id}`)
       .then((res) => {
         console.log(res.data);
 
-        changeBlogData(res.data);
+        changeBlogData(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -26,7 +26,7 @@ function BlogRead(props) {
     
   return (
     <div className='blog-read-body_sreekar p-4'  >
-     { totalBlog.id && (
+     { totalBlog._id && (
     <div className="blog-read-card ms-auto me-auto p-4 shadow-lg">
         <img src={totalBlog.imageUrl} className="card-img-top" alt="..." />
         <div className="card-body_sreekar">

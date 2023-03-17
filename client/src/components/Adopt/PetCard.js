@@ -18,7 +18,7 @@ let PetCard = (props) => {
           <p className="mb-0"> {props.data.breed} </p>
           <p className="mt-0"> {props.data.pincode} </p>
           <div className="">
-            <Link to={`/PetInformation/${props.data.id}`} >
+            <Link to={`/PetInformation/${props.data._id}`} >
   
               <button type="button" className="btn m-2 text-dark adopt-btn">
                 Know More
