@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const { Pet } = require("../models/Pets");
 
+
+
 // GET
 let getPets = asyncHandler(async (req, res) => {
 
@@ -43,7 +45,7 @@ let getPetById = asyncHandler(async (req, res) => {
 
         res.json({
             status: "200",
-            message: "Pets Found",
+            message: "Pet Found",
             data: petsData,
         });
 
@@ -60,17 +62,35 @@ let getPetById = asyncHandler(async (req, res) => {
 // POST
 let addPet = asyncHandler(async (req,res) => {
 
-    console.log(req.body);
+    let profile = req.file;
+    console.log(profile);
 
-    const pet1 = new Pet(req.body);
+    try {
 
-    await pet1.save();
+        console.log(req.body);
+        req.body.imageUrl = req.file
+          ? req.file.path
+          : "https://hips.hearstapps.com/wdy.h-cdn.co/assets/16/11/3200x1600/1458326940-landscape-gettyimages-530330473-1.jpg?resize=1200:*";
+    
+        const pet1 = new Pet(req.body);
+    
+        await pet1.save();
+    
+        res.status(200).json({
+            status: 200,
+            message: "Pet has been added!",
+            data: pet1
+        });
 
-    res.status(200).json({
-        status: 200,
-        message: pet1,
-        data: pet1
-    })
+    } catch(err) {
+        console.log(err);
+
+        res.status(500).json({
+          status: "500",
+          message: err.message,
+        });
+    }
+
 
 });
 

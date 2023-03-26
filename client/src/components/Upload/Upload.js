@@ -14,6 +14,8 @@ let Upload = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [showImage, changeShowImage] = useState(EmptyPic); 
+
     const navigate = useNavigate();
 
     let [formInput, changeFormInput] = useState({
@@ -45,18 +47,31 @@ let Upload = (props) => {
             ...formInput,
         }
 
+        const formdata1 = new FormData();
+        formdata1.append("name", formInput1.name);
+        formdata1.append("breed", formInput1.breed);
+        formdata1.append("pincode", formInput1.pincode);
+        formdata1.append("isAdopt", formInput1.isAdopt);
+        formdata1.append("address", formInput1.address);
+        formdata1.append("phone", formInput1.phone);
+        formdata1.append("owner", formInput1.owner);
+        formdata1.append("imageUrl", formInput1.imageUrl);
+        formdata1.append("additional", formInput1.additional);
+        formdata1.append("vaccinated", formInput1.vaccinated);
+        formdata1.append("trained", formInput1.trained);
+        formdata1.append("otherpets", formInput1.otherpets);
+        formdata1.append("otherhumans", formInput1.otherhumans);
+        formdata1.append("sex", formInput1.sex);
+        formdata1.append("age", formInput1.age);
+        formdata1.append("type", formInput1.type);
+
         console.log("Submitted!");
         console.log(formInput1);
 
         axios
           .post(
             `${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet`,
-            formInput1,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
+            formdata1
           )
           .then((res) => {
             console.log(res);
@@ -65,6 +80,25 @@ let Upload = (props) => {
           .catch((err) => {
             console.log(err);
           });
+    }
+
+    let HandleImageChange = (event) => {
+
+        let name = event.target.name;
+        let value = event.target.files[0];
+
+        let imageUrl = URL.createObjectURL(value)
+        changeShowImage(imageUrl)
+
+        console.log(event.target.files[0]);
+
+        changeFormInput(prev => {
+            return {
+                ...prev,
+                [name]: value
+            }
+        })
+
     }
 
     let HandleInputChange = (event) => {
@@ -94,12 +128,12 @@ let Upload = (props) => {
                                             className="col-sm-4 bg-c-lite-green user-profile d-flex justify-content-center align-items-center">
                                             <div className="card-block text-center text-white">
                                                 <div className="m-b-25 pet-img" style={{
-                                                    backgroundImage: `url(${EmptyPic})`
+                                                    backgroundImage: `url(${showImage})`
                                                 }}> </div>
                                                 <div className="mb-3">
                                                     <label htmlFor="formFileSm" className="form-label">Choose pet Image</label>
                                                     <input className="form-control form-control-sm" id="formFileSm" type="file"
-                                                        accept="image/*" name="image" />
+                                                        accept="image/*" name="imageUrl" onChange={HandleImageChange} />
                                                 </div>
                                             </div>
                                         </div>

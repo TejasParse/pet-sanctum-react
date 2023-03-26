@@ -16,7 +16,7 @@ let addBlog = asyncHandler(async (req, res) => {
 
         // res.redirect(`/BlogRead?uid=${hmm._id}`);
         res.json({
-            status: 400,
+            status: 200,
             message: "Blog Added!"
         })
       })
@@ -57,12 +57,20 @@ let deleteBlog = asyncHandler(async (req,res) => {
 
 let listBlog = asyncHandler(async (req, res)=>{
 
-  const listBlog = await Blog.find({});
+  try {
+    const listBlog = await Blog.find({});
+  
+    res.status(200).json({
+      status: 200,
+      data: listBlog
+    })
+  } catch(err) {
+    res.status(200).json({
+      status: 200,
+      data: listBlog,
+    });
+  }
 
-  res.status(200).json({
-    status: 200,
-    data: listBlog
-  })
 
 });
 
