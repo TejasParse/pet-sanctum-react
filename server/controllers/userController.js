@@ -5,47 +5,49 @@ const bcrypt = require('bcryptjs')
 
 //POST
 let registerUser = asyncHandler(async (req, res) => {
-    const { fname, lname, phone, username,
-			email, address, state, zip,
-			city,  password, imageUrl, isAdmin,
-			adopted, rescued } = req.body;
 	
-	if(!fname || !lname || !phone || !username || !email || !address || !state || !zip || !city || !password || !imageUrl || !isAdmin) {
-		return res.status(400).json({
-			message: 'Please add all fields'
-		});
-	}
+	console.log(req.file);
+	console.log(req.body);
 
+	const imageUrl = (req.file) ? req.file.path : null;
+
+	const { username } = req.body.username;
+ 
 	let userExists = await Profile.findOne({ username });
 
 	if(userExists) {
-		return res.status(400).json({
+		return res.status(200).json({
+			status:400,
 			message: "Username already taken"
 		});
 	}
 
 	const salt = await bcrypt.genSalt(10)
-	const hashPassword = await bcrypt.hash(password, salt)
+	const hashPassword = await bcrypt.hash(req.body.password, salt)
 
-	let profileData = await Profile.create({
-		fname, lname, phone, username,
-		email, address, state, zip,
-		city,  password: hashPassword, imageUrl, isAdmin,
-		adopted, rescued
-	});
+	req.body.password = hashPassword;
+	req.body.imageUrl = imageUrl;
 
-	if(profileData) {
-		res.status(201).json({
-			_id: profileData._id,
-			fname: profileData.fname,
-			token: generateToken(profileData._id)
-		})
-	}
-	else {
-		res.status(400).json({
-			message: 'Invalid user data'
+	let profileData = await Profile(req.body);
+
+	try {
+
+		await profileData.save();
+	
+
+			res.status(201).json({
+				status: 201,
+				fname: profileData.fname,
+			})
+		
+	} catch(err) {
+		console.log(err);
+		res.status(200).json({
+			status: 400,
+			message: "Error",
 		});
 	}
+
 });
 
 

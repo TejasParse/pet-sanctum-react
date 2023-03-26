@@ -1,0 +1,5 @@
+::1 - - [26/Mar/2023:17:20:02 +0000] "GET /serviceworker.js HTTP/1.1" 404 44 "http://localhost:4000/serviceworker.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+::1 - - [26/Mar/2023:17:24:22 +0000] "GET /serviceworker.js HTTP/1.1" 404 44 "http://localhost:4000/serviceworker.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+::1 - - [26/Mar/2023:17:24:34 +0000] "GET /serviceworker.js HTTP/1.1" 404 44 "http://localhost:4000/serviceworker.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+::1 - - [26/Mar/2023:17:25:03 +0000] "GET /serviceworker.js HTTP/1.1" 404 44 "http://localhost:4000/serviceworker.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+::1 - - [26/Mar/2023:17:33:00 +0000] "GET /serviceworker.js HTTP/1.1" 404 44 "http://localhost:4000/serviceworker.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
