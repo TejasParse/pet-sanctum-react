@@ -160,3 +160,4 @@ let AddBlogs = (props) => {
 };
 
 export default AddBlogs;
+// Add blog page
