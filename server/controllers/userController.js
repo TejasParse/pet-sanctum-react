@@ -111,14 +111,16 @@ let loginUser = asyncHandler(async (req,res)=> {
 	
 	const user = await Profile.findOne({username})
 	if(user && (await bcrypt.compare(password, user.password))) {
-		res.status(201).json({
-			_id: user._id,
-			fname: user.fname,
-			token: generateToken(user._id)
+		res.status(200).json({
+			status:200,
+			id: user._id,
+			username: user.username,
+			LoginDetails: user
 		})
 	}
 	else {
-		res.status(400).json({
+		res.status(200).json({
+			status: 400,
 			message: 'Invalid credentials'
 		});
 	}

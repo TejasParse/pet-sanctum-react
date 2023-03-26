@@ -4,6 +4,9 @@ import EmptyPic from "./empty_profile.webp";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const SignUp = (props) => {
 
     const [showImage, changeShowImage] = useState(EmptyPic);
@@ -16,6 +19,36 @@ const SignUp = (props) => {
         console.log("Submitting!");
         console.log(formInput);
 
+        PostData();
+
+    };
+
+    let PostData = () => {
+      let formInput1 = {
+        ...formInput,
+      };
+
+      const formdata1 = new FormData();
+      formdata1.append("fname", formInput1.fname);
+      formdata1.append("lname", formInput1.lname);
+      formdata1.append("phone", formInput1.phone);
+      formdata1.append("address", formInput1.address);
+      formdata1.append("city", formInput1.city);
+      formdata1.append("zip", formInput1.zip);
+      formdata1.append("username", formInput1.username);
+      formdata1.append("imageUrl", formInput1.imageUrl);
+      formdata1.append("isAdmin", -1);
+
+
+      axios
+        .post(`${process.env.REACT_APP_SERVER_LINK}/api/user/signup`, formdata1)
+        .then((res) => {
+          console.log(res);
+          navigate(`/PetInformation/${res.data.data._id}`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     };
 
     let HandleImageChange = (event) => {

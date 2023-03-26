@@ -6,60 +6,57 @@ import { authActions } from "../../store/index"
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { getBlur,getFocus,getBlur1,getFocus1,show,show1 } from "./sideEffect_Login";
+import { getBlur, getFocus, getBlur1, getFocus1, show, show1 } from "./sideEffect_Login";
 
 export default function Login() {
-    const [username,setUsername] = useState('');
-    const [pwd,setPwd] = useState('');
-  
-    const dispatch = useDispatch();
-    const navigate = useNavigate()
+  const [username, setUsername] = useState('');
+  const [pwd, setPwd] = useState('');
 
-    const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
 
-    let onLogin = (event)=>{
-      event.preventDefault();
-      
-      console.log(username, pwd);
+  const [show, setShow] = useState(false);
 
-      axios.post('http://localhost:4000/api/user/login', {
-      username: username,
-      password: pwd
+  let onLogin = (event) => {
+    event.preventDefault();
+
+    console.log(username, pwd);
+
+    axios
+      .post(`${process.env.REACT_APP_SERVER_LINK}/api/user/login`, {
+        username: username,
+        password: pwd,
       })
-        .then(res=>{
-            console.log(res.data);
-            if(res.data.length === 0) {
-              setShow(true);
-            } else {
-              let loginDetails = res.data[0];
-              if(loginDetails.password == pwd) {
-                dispatch(
-                  authActions.login({
-                    id: loginDetails.id,
+      .then((res) => {
+        console.log(res);
+        let response = res.data;
+        if (response.status == 200) {
+          dispatch(
+            authActions.login({
+              id: response.id,
 
-                    username: loginDetails.username,
-                    LoginProfile: loginDetails
-                  }) // Inside (), dictionary used (action.payload.username)\
-                )
-                navigate("/"); 
-              } else {
-                setShow(true);
-              }
-            }
-        })
-        .catch(err=>{
-          console.log(err);
-        })
+              username: response.username,
+              LoginProfile: response.LoginDetails,
+            }) // Inside (), dictionary used (action.payload.username)\
+          );
+          navigate("/");
+        } else {
+          setShow(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-    }
+  }
 
   return (
     <>
-      { show && 
+      {show &&
         <Alert key={"danger"} variant={"danger"} onClose={() => setShow(false)} dismissible>
           Please Enter a valid username and password
-      </Alert>
-     }
+        </Alert>
+      }
       <div className="container_login">
         <div className="page_login">
           <div className="image_login">
@@ -95,7 +92,7 @@ export default function Login() {
                   name="name_login"
                   className="input_login"
                   value={username}
-                  onChange={(e) => {setUsername(e.target.value)}}
+                  onChange={(e) => { setUsername(e.target.value) }}
                   onFocus={getFocus}
                   onBlur={getBlur}
                   required
@@ -118,7 +115,7 @@ export default function Login() {
                     id="pwd_login"
                     className="input_login"
                     value={pwd}
-                    onChange={(e) => {setPwd(e.target.value)}}
+                    onChange={(e) => { setPwd(e.target.value) }}
                     onFocus={getFocus1}
                     onBlur={getBlur1}
                     required
