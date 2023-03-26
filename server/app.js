@@ -6,6 +6,7 @@ const app = express();
 const cors = require("cors");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
+const morgan = require('morgan');
 
 const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
@@ -49,6 +50,12 @@ app.use("/api/pet", petRoutes);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs))
 
 
+const accessLogStream = fs.createWriteStream('.\\logs\\access.log', {flags:'a'});
+accessLogStream.on('error', (err) => {
+  console.error(`Error while writing to access.log file: ${err}`);
+});
+
+app.use(morgan('combined', { stream: accessLogStream }));
 
 app.get("*", (req,res)=>{
 
