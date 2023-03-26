@@ -55,16 +55,16 @@ const ProfileSchema = new mongoose.Schema({
     rescued: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Pet" }]
 });
 
-ProfileSchema.pre("save", async function (next) {
-  console.log(this.isModified("password"));
-  if(!this.isModified) {
-    next();
-  }
+// ProfileSchema.pre("save", async function (next) {
+//   console.log(this.isModified("password"));
+//   if(!this.isModified) {
+//     next();
+//   }
 
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt)
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt)
 
-})
+// })
 
 
 const Profile = mongoose.model("Profile",ProfileSchema);

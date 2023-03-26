@@ -1,72 +1,87 @@
 const asyncHandler = require("express-async-handler");
 const { Profile }  = require("../models/Profile");
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
 //POST
 let registerUser = asyncHandler(async (req, res) => {
-  
-    console.log(req.body);
-    const temp = req.body;
-
-    temp.imageUrl = "../Resources/images/empty_profile.webp";
-    temp.isAdmin = 0;
-
-	let temp1 = await Profile.findOne({ username: req.body.username });
-
-	if(temp1) {
-		res.json({
-			status: "400",
-			message: "Username already taken"
-		});
-	} else {
-
-		let ProfileData = new Profile(temp);
-		let tp1 = await ProfileData.save();
-		
-		console.log("Profile Data inserted successfully");
-		res.json({
-			status: "200",
-			message: "Sign Up Successfull",
-			data: tp1
-		});
+    const { fname, lname, phone, username,
+			email, address, state, zip,
+			city,  password, imageUrl, isAdmin,
+			adopted, rescued } = req.body;
 	
+	if(!fname || !lname || !phone || !username || !email || !address || !state || !zip || !city || !password || !imageUrl || !isAdmin) {
+		return res.status(400).json({
+			message: 'Please add all fields'
+		});
 	}
 
+	let userExists = await Profile.findOne({ username });
 
+	if(userExists) {
+		return res.status(400).json({
+			message: "Username already taken"
+		});
+	}
 
+	const salt = await bcrypt.genSalt(10)
+	const hashPassword = await bcrypt.hash(password, salt)
 
+	let profileData = await Profile.create({
+		fname, lname, phone, username,
+		email, address, state, zip,
+		city,  password: hashPassword, imageUrl, isAdmin,
+		adopted, rescued
+	});
 
+	if(profileData) {
+		res.status(201).json({
+			_id: profileData._id,
+			fname: profileData.fname,
+			token: generateToken(profileData._id)
+		})
+	}
+	else {
+		res.status(400).json({
+			message: 'Invalid user data'
+		});
+	}
 });
+
 
 //GET
 let getUser = asyncHandler(async (req, res) => {
+	const {_id, fname, lname, phone, username,
+			email, address, state, zip, city,
+			imageUrl, isAdmin, adopted, rescued} = req.user
 	
-	let { id } = req.params;
+	res.status(200).json({id: _id, fname, lname, phone, username,
+		email, address, state, zip, city,
+		imageUrl, isAdmin, adopted, rescued})
+
+	// let { id } = req.params;
 	
-	console.log(id);
+	// console.log(id);
 
-	try {
+	// try {
 
-		const Profile1 = await Profile.findById(id);
-		console.log(Profile1);
-		res.json({
-			status: "200",
-			message: "User Found",
-			data: Profile1
-		});
+	// 	const Profile1 = await Profile.findById(id);
+	// 	console.log(Profile1);
+	// 	res.json({
+	// 		status: "200",
+	// 		message: "User Found",
+	// 		data: Profile1
+	// 	});
 
-	} catch(err) {
-		console.log(err);
-		console.log("ruk jaa bc");
+	// } catch(err) {
+	// 	console.log(err);
+	// 	console.log("ruk jaa bc");
 
-		res.json({
-			"status" :"400",
-			"message": "User does not exist"
-		});
-	}
-
-
-	
-    
+	// 	res.json({
+	// 		"status" :"400",
+	// 		"message": "User does not exist"
+	// 	});
+	// }
 });
 
 //DELETE
@@ -88,18 +103,33 @@ let deleteUser = asyncHandler(async (req, res) => {
 			"message": err.message
 		})
 	}
-
-
 });
 
-//GET
+//LOGIN POST
 let loginUser = asyncHandler(async (req,res)=> {
-
-	res.send("Checking login credentials for login");
-
+	const {username, password} = req.body
+	
+	const user = await Profile.findOne({username})
+	if(user && (await bcrypt.compare(password, user.password))) {
+		res.status(201).json({
+			_id: user._id,
+			fname: user.fname,
+			token: generateToken(user._id)
+		})
+	}
+	else {
+		res.status(400).json({
+			message: 'Invalid credentials'
+		});
+	}
 });
 
-
+//Generate JWtoken
+const generateToken = (id) => {
+	return jwt.sign({id}, process.env.JWT_SECRET, {
+		expiresIn: '30d',
+	})
+}
 
 module.exports = {
   registerUser,
