@@ -88,7 +88,7 @@ let AddBlogs = (props) => {
     };
 
   return (
-    <div className=" py-5" style={{backgroundColor: `#149279`}}>
+    <div className=" py-5" style={{ backgroundColor: `#149279` }}>
       <form method="post" onSubmit={FormSubmitHandler} id="form">
         <div className="card card_blog mb-5 ms-auto me-auto mt-5 p-4 shadow-lg">
           <div
@@ -132,15 +132,12 @@ let AddBlogs = (props) => {
                 id="description"
                 required
                 maxLength="10000"
+                onChange={HandleInputChange}
               ></textarea>
               <label htmlFor="floatingTextarea">Description</label>
             </div>
 
-            <input
-              type={"submit"}
-              value="Submit"
-              className="btn btn-success"
-            />
+            <input type={"submit"} value="Submit" className="btn btn-success" />
 
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
