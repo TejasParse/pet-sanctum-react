@@ -16,7 +16,7 @@ export default function Cpwd(props) {
     return [span, flag];
 
   }
-  if (flag === 0) {
+  if (value === password) {
     span = "";
     
     return [span, flag];

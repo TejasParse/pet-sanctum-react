@@ -1,33 +1,30 @@
 import { Handle_Flag } from "../input";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { computeHeadingLevel } from "@testing-library/react";
+// import { computeHeadingLevel } from "@testing-library/react";
 
 
-
-export default function Handle_Submit(event) {
-  let flag_index;
-  let arr;
+ function Handle_Submit(event) {
+ 
   const navigate = useNavigate();
   let btn = document.getElementById("btn_signup");
   event.preventDefault();
-  arr = Handle_Flag();
-  console.log(arr[2])
-
-  // flag_index = Handle_Flag()
-  flag_index = arr[0]
-  // if (flag_index !== -1) {
-  //   event.preventDefault();
-  //   btn.style.fontSize = "15px";
-  //   btn.style.width = "360px";
-  //   btn.value = "Look into red colored text!";
-  //   setTimeout(() => {
-  //     btn.style.fontSize = "";
-  //     btn.style.width = "130px";
-  //     btn.value = "Submit";
-  //   }, 11000);
-  // }
-  // else {
+    let  arr = Handle_Flag();
+ 
+ 
+  let flag_index = arr[0]
+  if (flag_index !== -1) {
+    event.preventDefault();
+    btn.style.fontSize = "15px";
+    btn.style.width = "360px";
+    btn.value = "Look into red colored text!";
+    setTimeout(() => {
+      btn.style.fontSize = "";
+      btn.style.width = "130px";
+      btn.value = "Submit";
+    }, 11000);
+  }
+  else {
 
 
     let temp = new Date().valueOf();
@@ -53,6 +50,7 @@ export default function Handle_Submit(event) {
     }
     console.log("Submitted!");
     console.log(formInput1);
+    // event.preventDefault();
 
     axios.post("http://localhost:3005/profiles", formInput1, {
             headers: {
@@ -68,8 +66,9 @@ export default function Handle_Submit(event) {
                 console.log(err);
             })
         
-        // navigate(`/Login`)
-  // }
+        navigate(`/Login`)
+  }
 
   
 }
+export {Handle_Submit} 
