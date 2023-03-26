@@ -22,7 +22,10 @@ export default function Login() {
       
       console.log(username, pwd);
 
-      axios.get(`http://localhost:3005/Profiles?username=${username}`)
+      axios.post('http://localhost:4000/api/user/login', {
+      username: username,
+      password: pwd
+      })
         .then(res=>{
             console.log(res.data);
             if(res.data.length === 0) {

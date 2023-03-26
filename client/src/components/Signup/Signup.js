@@ -1,12 +1,36 @@
 import React from "react";
 import {Input} from "../sub_Components/input";
 import { Handle_Submit } from "../sub_Components/validation/handle_submit";
+import { useState, useEffect } from "react";
 
 import "./Signup.css";
 
 export default function Signup() {
+  const [formData, setFormData] = useState({
+    fname: '',
+    lname: '',
+    phone: '',
+    username: '',
+    password: '',
+    confirmpwd: '',
+    email: '',
+    address: '',
+    state: '',
+    zip: '',
+    city: '',
+    imageUrl: '',
+    isAdmin: '',
+    adopted: [],
+    rescued: []
+  })
 
+  const {fname, lname,phone,username,password,
+  confirmpwd, email,address,state,zip,city,
+  imageUrl,isAdmin,adopted,rescued} = formData
 
+  const onChange = () => {
+    
+  }
 
   return (
     <>
@@ -24,6 +48,9 @@ export default function Signup() {
                       input_class="input_field_signup"
                       label_class="label_signup"
                       label_child="First name"
+                      name= "fname"
+                      value = {fname}
+                      onChange = {onChange}
                     />
                   </div>
                   
