@@ -1,207 +1,243 @@
-import React from "react";
-import {Input} from "../sub_Components/input";
-import { Handle_Flag } from "../sub_Components/input";
-import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-import "./Signup.css";
+import { Tabs, Tab, Accordion, Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import EmptyPic from "./empty_profile.webp";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Form from "react-bootstrap/Form";
 
-export default function Signup() {
+const SignUp = (props) => {
 
-  function Handle_Submit(event) {
-    let flag_index;
-    let arr;
-    const navigate = useNavigate();
-    let btn = document.getElementById("btn_signup");
-    event.preventDefault();
-    arr = Handle_Flag();
-    console.log(arr[2])
-  
-    // flag_index = Handle_Flag()
-    flag_index = arr[0]
-    // if (flag_index !== -1) {
-    //   event.preventDefault();
-    //   btn.style.fontSize = "15px";
-    //   btn.style.width = "360px";
-    //   btn.value = "Look into red colored text!";
-    //   setTimeout(() => {
-    //     btn.style.fontSize = "";
-    //     btn.style.width = "130px";
-    //     btn.value = "Submit";
-    //   }, 11000);
-    // }
-    // else {
-  
-  
-      let temp = new Date().valueOf();
-      let formInput1 = {
-        
-        id: temp,
-        fname:arr[1],
-        lname:arr[2],
-        phone:arr[4],
-        uname:arr[5],
-        email:arr[3],
-        address:arr[9],
-        state:arr[6],
-        zip:arr[8],
-        city:arr[7],
-        password:arr[10],
-        imageUrl:"./images/empty_profile.webp",
-        isAdmin:0,
-        adopted:[],
-        rescued:[],
-        __v: 0
-  
-      }
-      console.log("Submitted!");
-      console.log(formInput1);
-  
-      axios.post("http://localhost:3005/profiles", formInput1, {
-              headers: {
-                  'Content-Type': 'application/json'
-              }
-      }
-          )
-              .then(res => {
-                console.log("Submitted");
-                  console.log(res);
-              })
-              .catch(err => {
-                  console.log(err);
-              })
-          
-          // navigate(`/Login`)
-    // }
-  
-    
-  }
+    const [showImage, changeShowImage] = useState(EmptyPic);
 
-  return (
-    <>
-      <div className="container_signup">
-        <div className="main_signup">
-          <div className="heading_signup">Sign Up</div>
-          <div className="form_signup">
-            <form id="signup_form" onSubmit={Handle_Submit} > 
-              <div id="input_area_signup">
-                <div className="input_name_signup"> 
-                  <div className="input_signup">
-                    <Input
-                      type="text"
-                      input_id="fname_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="First name"
-                    />
-                  </div>
-                  
-                  <div className="input_signup">
-                    <Input
-                      type="text"
-                      input_id="lname_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="Last name"
-                    />
-                  </div>
-                  
-                  <div className="input_signup">
-                    <Input
-                      type="text"
-                      input_id="phone_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="Contact Number"
-                    />
-                  </div>
-                  <div className="input_signup">
-                    <Input
-                      type="text"
-                      input_id="state_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="State"
-                    />
-                  </div>
-                </div>
-                <div className="input_address">
-                  <div className="input_signup">
-                    <Input
-                      type="text"
-                      input_id="city_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="City"
-                      input_value
-                    />
-                  </div>
-                  <div className="input_signup">
-                    <Input
-                      type="text"
-                      input_id="zip_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="Pincode"
-                    />
-                  </div>
+    let [formInput, changeFormInput] = useState({});
 
-                  <div className="input_signup">
-                    <Input
-                      type="text"
-                      input_id="address_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="Address"
-                    />
-                  </div>
-                  
-                </div>
-                <div className="input_user">
-                <div className="input_signup">
-                    <Input
-                      type="text"
-                      input_id="email_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="Email"
-                    />
-                  </div>
-                  <div className="input_signup">
-                    <Input
-                      type="text"
-                      input_id="uname_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="Username"
-                    />
-                  </div>
-                  <div className="input_signup">
-                    <Input
-                      type="password"
-                      input_id="pwd_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child="Password"
-                    />
-                  </div>
-                  <div className="input_signup">
-                    <Input
-                      type="password"
-                      input_id="cpwd_signup"
-                      input_class="input_field_signup"
-                      label_class="label_signup"
-                      label_child=" Confirm Password"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div id="submit_area">
-                <input type="submit" value="Submit" id="btn_signup" />
-              </div>
-            </form>
+    let FormSubmitHandler = (event) => {
+        event.preventDefault();
+
+        console.log("Submitting!");
+        console.log(formInput);
+
+    };
+
+    let HandleImageChange = (event) => {
+      let name = event.target.name;
+      let value = event.target.files[0];
+
+      let imageUrl = URL.createObjectURL(value);
+      changeShowImage(imageUrl);
+
+      console.log(event.target.files[0]);
+
+      changeFormInput((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    };
+
+    let HandleInputChange = (event) => {
+      let name = event.target.name;
+      let value = event.target.value;
+
+      changeFormInput((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    };
+
+    return (
+      <div
+        className="p-5"
+        style={{
+          backgroundColor: "#5300d9",
+        }}
+      >
+        <form
+          className="row g-3 mt-1 p-4"
+          style={{
+            backgroundColor: "white",
+            borderRadius: "20px",
+          }}
+          onSubmit={FormSubmitHandler}
+        >
+          <div
+            className="m-b-25 pet-img"
+            style={{
+              backgroundImage: `url(${showImage})`,
+            }}
+          ></div>
+          <div className="col-12 input-group mb-3">
+            <input
+              type="file"
+              className="form-control"
+              id="inputGroupFile01"
+              accept="image/*"
+              required={true}
+              name="ProfileImage"
+              onChange={HandleImageChange}
+            />
           </div>
-        </div>
+          <div className="col-6 form-floating mb-2">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="First Name"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                required={true}
+                placeholder="First Name"
+                name="fname"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="col-6 form-floating mb-2">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Last Name"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                required={true}
+                placeholder="Last Name"
+                name="lname"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="col-6 form-floating mb-2">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Username"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                required={true}
+                placeholder="Last Name"
+                name="username"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="col-md-6 form-floating mb-2">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Email Adress"
+              className="mb-3"
+            >
+              <Form.Control
+                type="email"
+                required={true}
+                placeholder="Last Name"
+                name="email"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="input-group mb-3 col-6">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Phone Number"
+              className="mb-3 w-100"
+            >
+              <Form.Control
+                type="tel"
+                required={true}
+                placeholder="Last Name"
+                name="phone"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="input-group mb-2 col-6">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Password"
+              className="mb-3 w-100"
+            >
+              <Form.Control
+                type="password"
+                required={true}
+                placeholder="Last Name"
+                name="password"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="col-12 form-floating mb-2">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Address"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                required={true}
+                placeholder="Last Name"
+                name="address"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="col-md-6 form-floating mb-2">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="City"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                required={true}
+                placeholder="Last Name"
+                name="city"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="col-md-4 form-floating mb-2">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="State"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                required={true}
+                placeholder="Last Name"
+                name="state"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="col-md-2 form-floating mb-2">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Zip Code"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                required={true}
+                placeholder="Last Name"
+                name="zip"
+                onChange={HandleInputChange}
+              />
+            </FloatingLabel>
+          </div>
+          <div className="col-12">
+            <button type="submit" className="btn btn-primary">
+              Edit
+            </button>
+          </div>
+          <div className="col-12"></div>
+        </form>
       </div>
-    </>
-  );
-}
+    );
+};
+
+export default SignUp;

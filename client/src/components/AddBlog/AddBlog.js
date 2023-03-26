@@ -10,6 +10,8 @@ let AddBlogs = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [showImage, changeShowImage] = useState(EmptyPic); 
+
     const navigate = useNavigate();
 
     let [formInput, changeFormInput] = useState({
@@ -25,30 +27,51 @@ let AddBlogs = (props) => {
     };
 
     let PostData = ()=>{
-        let temp = new Date().valueOf();
+
         let formInput1 = {
             ...formInput,
-            id: temp
         }
+
+        const formdata1 = new FormData();
+        formdata1.append("title", formInput1.title);
+        formdata1.append("description", formInput1.description);
+        formdata1.append("imageUrl", formInput1.imageUrl);
+
 
         console.log("Submitted!");
-        console.log(formInput1);
+        console.log(formdata1);
 
-        axios.post("http://localhost:3005/Blogs", formInput1, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-        )
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        axios
+          .post(
+            `${process.env.REACT_APP_SERVER_LINK}/api/blog/addBlog`,
+            formdata1
+          )
+          .then((res) => {
+            console.log(res);
+            navigate(`/BlogRead/${res.data.data._id}`)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
-        navigate(`/`)
     }
+
+    let HandleImageChange = (event) => {
+      let name = event.target.name;
+      let value = event.target.files[0];
+
+      let imageUrl = URL.createObjectURL(value);
+      changeShowImage(imageUrl);
+
+      console.log(event.target.files[0]);
+
+      changeFormInput((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    };
 
     let HandleInputChange = (event) => {
 
@@ -71,7 +94,7 @@ let AddBlogs = (props) => {
           <div
             className="m-b-25 pet-img mx-auto"
             style={{
-              backgroundImage: `url(${EmptyPic})`,
+              backgroundImage: `url(${showImage})`,
             }}
           ></div>
           <div className="card card_blog-body">
@@ -83,8 +106,8 @@ let AddBlogs = (props) => {
               className="form-control"
               id="inputGroupFile01"
               accept="image/*"
-              name="blogImage"
-              onChange={HandleInputChange}
+              name="imageUrl"
+              onChange={HandleImageChange}
             />
 
             <div className="form-floating mb-3 mt-3">

@@ -2,6 +2,11 @@ const express = require("express");
 const blogControllers = require("../controllers/blogController");
 const router = express.Router();
 
+const { storage } = require("../cloud");
+const multer = require("multer");
+
+const upload = multer({ storage });
+
 /**
  * @swagger
  * /api/blog/:
@@ -86,7 +91,7 @@ router.get("/", blogControllers.listBlog);
  *                    example: Error adding blog!        
  *       
  */
-router.post("/addBlog", blogControllers.addBlog);
+router.post("/addBlog", upload.single("imageUrl"), blogControllers.addBlog);
 
 /**
  * @swagger

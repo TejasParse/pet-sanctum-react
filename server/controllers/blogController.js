@@ -2,11 +2,14 @@ const asyncHandler = require("express-async-handler");
 const { Blog } = require("../models/Blogs");
 
 let addBlog = asyncHandler(async (req, res) => {
+
+    let imageUrl1 = (req.file) ? req.file.path : "https://hips.hearstapps.com/wdy.h-cdn.co/assets/16/11/3200x1600/1458326940-landscape-gettyimages-530330473-1.jpg?resize=1200:*"
+
     const newBlog = new Blog({
-      imageUrl: "This is a new URL",
+      imageUrl: imageUrl1,
       title: req.body.title,
       description: req.body.description,
-      author: req.body.author || "This is a test a author",
+      author: req.body.author || "Pet Sanctum",
     });
 
     await newBlog
@@ -14,10 +17,10 @@ let addBlog = asyncHandler(async (req, res) => {
       .then((hmm) => {
         console.log(hmm);
 
-        // res.redirect(`/BlogRead?uid=${hmm._id}`);
         res.json({
             status: 200,
-            message: "Blog Added!"
+            message: "Blog Added!",
+            data: newBlog
         })
       })
       .catch((err) => {
