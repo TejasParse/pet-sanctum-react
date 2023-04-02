@@ -93,7 +93,7 @@ let Profile = ()=>{
 
             <div className="row">
                 <div className="col-lg-3 col-md-6 p-3 d-flex justify-content-center">
-                    <img src={EmptyProfile} alt="" id="profile" width="200px" height="200px"
+                    <img src={LoginProfile.imageUrl} alt="" id="profile" width="200px" height="200px"
                         style={{backgroundPosition: "center", backgroundSize: "contain"}} />
                 </div>
                 <div className="col-lg-9 col-md-6 p-3">
