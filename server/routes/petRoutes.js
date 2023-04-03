@@ -204,7 +204,7 @@ router.get("/petinformation/:id", petControllers.getPetById);
  *               additional: 
  *                 type: string
  *               imageUrl: 
- *                 type: string
+ *                 type: Binary
  *               owner: 
  *                 type: string
  *               phone: 
