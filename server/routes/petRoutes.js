@@ -7,6 +7,8 @@ const multer = require("multer");
 
 const upload = multer({ storage });
 
+router.get("/petsearch", petControllers.searchPet);
+
 /**
  * @swagger
  * /api/pet/{filter}:

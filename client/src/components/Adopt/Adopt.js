@@ -11,6 +11,28 @@ let Adopt = (props) => {
 
     let [filter, changeFilter] = useState("all");
 
+    let [search, changeSearch] = useState("");
+
+    let onChangeSearch = (newString)=>{
+        changeSearch(newString);
+    }
+
+    useEffect(()=>{
+
+        axios
+          .get(`${process.env.REACT_APP_SERVER_LINK}/api/pet/petsearch?search=${search}`)
+          .then((res) => {
+            data = res.data;
+            console.log(data.data);
+            changeData(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+
+    }, [search])
+
     useEffect(()=>{
         
        
@@ -37,7 +59,7 @@ let Adopt = (props) => {
 
     return (
         <div>
-            <SearchBar/>
+            <SearchBar onChangeSearch={onChangeSearch}/>
             <Filters onChangeFilter = {onChangeFilter} currentFilter = {filter} />
             <div id="cards1" className="py-4">
                 <div className="container">

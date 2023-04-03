@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 let SearchBar = (props) => {
+
+    let [currentInput, changeInput] = useState("");
 
     return (
         <div className="container border-bottom">
@@ -7,9 +11,18 @@ let SearchBar = (props) => {
                     <div className="search">
 
                         <i className="fa fa-search"></i>
-                        <form action="/Adopt" method="get">
+                        <form onSubmit={(event)=>{
+                            event.preventDefault();
+
+                            props.onChangeSearch(currentInput);
+
+                        }} method="get">
                             <input
                                 type="text"
+                                value={currentInput}
+                                onChange={(event)=>{
+                                    changeInput(event.target.value);
+                                }}
                                 className="form-control"
                                 placeholder="Search by Breed or Pincode or Name"
                                 name="search"

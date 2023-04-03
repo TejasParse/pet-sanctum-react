@@ -94,8 +94,65 @@ let addPet = asyncHandler(async (req,res) => {
 
 });
 
+let searchPet = asyncHandler(async (req,res) => {
+
+    const temp = req.query;
+
+    console.log(temp);
+    
+    if(temp.search == undefined) // 
+    {
+        const PetsData = await Pet.find({isAdopt:-1});
+
+        res.json({
+            status:200,
+            data: PetsData
+        })
+    }
+    else 
+    {
+
+        const PetsData = await Pet.find({
+            $and: [
+                {
+                    $or: [
+                        {
+                            pincode: {
+                                $regex: `${temp.search}`,
+                                $options: "i",
+                            }
+                        },
+                        {
+                            breed: {
+                                $regex: `${temp.search}`,
+                                $options: "i",
+                            }
+                        },
+                        {
+                            name: {
+                                $regex: `${temp.search}`,
+                                $options: "i",
+                            }
+                        }
+                    ]
+                },
+                { 
+                    isAdopt:-1
+                },
+            ]
+        });
+
+        res.json({
+            status:200,
+            data: PetsData
+        })
+    }
+
+}) 
+
 module.exports = {
     getPets,
     getPetById,
-    addPet
+    addPet,
+    searchPet
 };
