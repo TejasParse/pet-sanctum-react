@@ -50,7 +50,6 @@ let registerUser = asyncHandler(async (req, res) => {
 
 });
 
-
 //GET
 let getUser = asyncHandler(async (req, res) => {
 	const {_id, fname, lname, phone, username,
@@ -128,6 +127,19 @@ let loginUser = asyncHandler(async (req,res)=> {
 	}
 });
 
+let listProfiles = asyncHandler(async (req,res)=> {
+
+	const profilesList = await Profile.find({});
+	
+	
+	res.status(200).json({
+		status:200,
+		data: profilesList
+	})
+	
+
+});
+
 //Generate JWtoken
 const generateToken = (id) => {
 	return jwt.sign({id}, process.env.JWT_SECRET, {
@@ -139,5 +151,6 @@ module.exports = {
   registerUser,
   getUser,
   deleteUser,
-  loginUser
+  loginUser,
+  listProfiles
 };

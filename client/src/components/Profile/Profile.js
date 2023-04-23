@@ -43,47 +43,49 @@ let Profile = ()=>{
 
     useEffect(()=>{
         
-        axios.get("http://localhost:3005/Pets")
+        axios.get(`${process.env.REACT_APP_SERVER_LINK}/api/pet/all`)
             .then(res=>{
                 
                 console.log(res.data);
         
-                changePetData(res.data);
+                changePetData(res.data.data);
                 
             })
             .catch(err=>{
                 console.log(err);
             })
 
-    },[])
+    },[]);
+
     useEffect(()=>{
         
-        axios.get("http://localhost:3005/Blogs")
-            .then(res=>{
-                
-                console.log(res.data);
-   
-                changeBlogData(res.data);
-                
-            })
-            .catch(err=>{
-                console.log(err);
-            })
+        axios
+          .get(
+            `${process.env.REACT_APP_SERVER_LINK}/api/blog/`
+          )
+          .then((res) => {
+            console.log(res.data);
+
+            changeBlogData(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
     },[])
+    
     useEffect(()=>{
         
-        axios.get("http://localhost:3005/Profiles")
-            .then(res=>{
-                
-                console.log(res.data);
-   
-                changeProfileData(res.data);
-                
-            })
-            .catch(err=>{
-                console.log(err);
-            })
+        axios
+          .get(`${process.env.REACT_APP_SERVER_LINK}/api/user/listProfiles`)
+          .then((res) => {
+            console.log(res.data, "idhar");
+
+            changeProfileData(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
     },[])
 
@@ -322,7 +324,7 @@ let Profile = ()=>{
                                                             <p>
                                                                 Additional Information: {elmt.additional}
                                                             </p>
-                                                            <Link to={`/PetInformation/${elmt.id}`} >
+                                                            <Link to={`/PetInformation/${elmt._id}`} >
                                                                 <Button class="btn btn-outline-primary">Know More</Button>
                                                             </Link>
                                                             <a href="/deletePet?id=<%= animals[index]._id %>"><Button class="btn btn-danger">Delete Pet Data</Button></a>

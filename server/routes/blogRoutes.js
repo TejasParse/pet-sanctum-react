@@ -41,7 +41,6 @@ const upload = multer({ storage });
  */
 router.get("/", blogControllers.listBlog);
 
-
 /**
  * @swagger
  * /api/blog/addBlog:
