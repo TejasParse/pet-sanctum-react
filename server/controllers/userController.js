@@ -93,9 +93,14 @@ let deleteUser = asyncHandler(async (req, res) => {
 			_id: req.params.id
 		});
 
+		const newProfiles = await Profile.find({});
+
+		console.log("Inside Delete");
+
 		res.json({
 			"status": "200",
-			message: "Deleted Profile Succesfully"
+			message: "Deleted Profile Succesfully",
+			data: newProfiles
 		})
 
 	} catch(err) {
@@ -140,6 +145,30 @@ let listProfiles = asyncHandler(async (req,res)=> {
 
 });
 
+let makeAdmin = asyncHandler(async (req,res)=> {
+
+	console.log("Setting Admin");
+
+	const profilesList = await Profile.updateOne({
+		_id: req.params.id
+	},
+	{
+		$set: {
+			isAdmin: 1
+		}
+	})
+	
+	
+	res.status(200).json({
+		status:200,
+		data: profilesList,
+		message: "Admin Status Updated"
+	})
+	
+
+});
+
+
 //Generate JWtoken
 const generateToken = (id) => {
 	return jwt.sign({id}, process.env.JWT_SECRET, {
@@ -152,5 +181,6 @@ module.exports = {
   getUser,
   deleteUser,
   loginUser,
-  listProfiles
+  listProfiles,
+  makeAdmin
 };
