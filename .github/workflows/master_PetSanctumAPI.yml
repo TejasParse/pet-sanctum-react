@@ -28,7 +28,7 @@ jobs:
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
-      working-directory: ./server
+      context: ./server
       with:
         push: true
         tags: petsanctumserver.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_0ada4504a4af47f79e7c7c9112643d2d }}/node-docker-demo:${{ github.sha }}
