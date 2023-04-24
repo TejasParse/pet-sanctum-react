@@ -4,7 +4,7 @@ FROM node:16.15.0-alpine
 WORKDIR /server
 
 # Copy Package Json files
-COPY package*.json ./
+COPY /server/package*.json ./
 RUN npm install
 COPY . .
 
