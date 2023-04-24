@@ -52,9 +52,12 @@ let deleteBlog = asyncHandler(async (req,res) => {
 
     const tmp = await Blog.findByIdAndDelete(id);
 
+    const newList = await Blog.find({});
+
     res.status(200).json({
       status: 200,
-      message: "Blog Succesfully Deleted!"
+      message: "Blog Succesfully Deleted!",
+      data: newList
     });
 });
 

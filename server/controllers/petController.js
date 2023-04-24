@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { Pet } = require("../models/Pets");
+const { Profile }  = require("../models/Profile");
 require('../services/cache')
 const {clearHash} = require('../services/cache')
 
@@ -62,7 +63,8 @@ let addPet = asyncHandler(async (req,res) => {
 
     let profile = req.file;
     console.log(profile);
-
+    const profiled = await Profile.findById(req.params.username)
+    
     try {
         console.log(req.body);
         req.body.imageUrl = req.file
@@ -72,7 +74,10 @@ let addPet = asyncHandler(async (req,res) => {
         const pet1 = new Pet(req.body);
     
         await pet1.save();
-    
+        
+        profiled.rescued.push(pet1);
+        await profiled.save();
+
         res.status(200).json({
             status: 200,
             message: "Pet has been added!",
@@ -148,9 +153,36 @@ let searchPet = asyncHandler(async (req,res) => {
 
 }) 
 
+//DELETE
+let deletePet = asyncHandler(async (req, res) => {
+	
+	try {
+		const tp1 = await Pet.deleteOne({
+			_id: req.params.id
+		});
+
+		const newProfiles = await Pet.find({});
+
+		console.log("Inside Delete");
+
+		res.json({
+			"status": "200",
+			message: "Deleted Profile Succesfully",
+			data: newProfiles
+		})
+
+	} catch(err) {
+		res.json({
+			"status": 400,
+			"message": err.message
+		})
+	}
+});
+
 module.exports = {
     getPets,
     getPetById,
     addPet,
-    searchPet
+    searchPet,
+    deletePet
 };

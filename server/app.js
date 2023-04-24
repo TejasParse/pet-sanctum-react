@@ -16,7 +16,7 @@ const connectDb = require("./config/db");
 const swaggerJSDoc = require("swagger-jsdoc");
 connectDb();
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 
 const options = {
@@ -62,7 +62,7 @@ app.get("*", (req,res)=>{
 
     res.status(404).json({
         status: "404",
-        message: "Page not found!"
+        message: "Page not found! Version 2"
     });
 });
 
