@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: petsanctumserver.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_0ada4504a4af47f79e7c7c9112643d2d }}/node-docker-demo:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./server/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
