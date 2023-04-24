@@ -1,13 +1,13 @@
 FROM node:16.15.0-alpine
 
 # working dir
-WORKDIR /server
+WORKDIR "/server"
 
 # Copy Package Json files
-COPY /server/package*.json ./
+COPY package*.json ./
 RUN npm install
 COPY . .
 
-CMD ["node", "server/app.js"]
+CMD ["npm", "start"]
 
 # Install 
