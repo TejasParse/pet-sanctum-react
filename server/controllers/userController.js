@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { Profile }  = require("../models/Profile");
+const { Pet } = require("../models/Pets");
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
@@ -168,6 +169,24 @@ let makeAdmin = asyncHandler(async (req,res)=> {
 
 });
 
+let rescuedPets = asyncHandler(async (req,res)=> {
+
+	const profilesList = await Profile.findById(req.params.id);
+
+	const rescued = await Pet.find({ _id: { $in: profilesList.rescued } });
+
+	console.log(rescued, "idhar bhai idhar");
+
+	res.status(200).json({
+		status:200,
+		data: rescued,
+		message: "Got It!"
+	})
+	
+
+});
+
+
 
 //Generate JWtoken
 const generateToken = (id) => {
@@ -182,5 +201,6 @@ module.exports = {
   deleteUser,
   loginUser,
   listProfiles,
-  makeAdmin
+  makeAdmin,
+  rescuedPets
 };

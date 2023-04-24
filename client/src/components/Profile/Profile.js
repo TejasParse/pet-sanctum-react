@@ -41,6 +41,22 @@ let Profile = ()=>{
     let [totalBlog, changeBlogData] = useState([]);
     let [totalProfile, changeProfileData] = useState([]);
 
+    let [uploadedPet, changeUploadedPet] = useState([]);
+
+    useEffect(()=>{
+      axios
+        .get(`${process.env.REACT_APP_SERVER_LINK}/api/user/rescuedPets/${LoginProfile._id}`)
+        .then((res) => {
+          console.log(res.data);
+
+          changeUploadedPet(res.data.data);
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, [])
+
     useEffect(()=>{
         
         axios.get(`${process.env.REACT_APP_SERVER_LINK}/api/pet/all`)
@@ -102,39 +118,38 @@ let Profile = ()=>{
           });
     };
 
-    let onMakeAdmin = (event)=>{
-        axios
-          .post(
-            `${
-              process.env.REACT_APP_SERVER_LINK
-            }/api/user/makeAdmin/${event.target.getAttribute("data-id")}`
-          )
-          .then((res) => {
-            console.log(res.data, "Made Admin yay");
+    let onDeletePet = (event)=>{
+      axios
+        .delete(
+          `${process.env.REACT_APP_SERVER_LINK}/api/pet/${event.target.getAttribute(
+            "data-id"
+          )}`
+        )
+        .then((res) => {
+          console.log(res.data, "Deleted Pet yay");
 
-            const index = event.target.getAttribute("data-index");
+          changePetData(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
 
-            let temp = totalProfile;
-            let ind = parseInt(index);
-            console.log(ind, temp[ind]);
-            temp[ind].isAdmin = 1;
+    let onDeleteBlog = (event)=>{
+      axios
+        .delete(
+          `${process.env.REACT_APP_SERVER_LINK}/api/blog/${event.target.getAttribute(
+            "data-id"
+          )}`
+        )
+        .then((res) => {
+          console.log(res.data, "Deleted Pet yay");
 
-            changeProfileData(temp);
-            
-
-            // changeProfileData(prev=>{
-            //     let temp = prev;
-            //     let ind = parseInt(index)
-            //     console.log(ind, temp[ind]);
-            //     temp[ind].isAdmin=1;
-            //     return temp;
-            // })
-            
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-
+          changeBlogData(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
 
@@ -341,7 +356,41 @@ let Profile = ()=>{
               </form>
             </Tab>
             <Tab eventKey="uploaded" title="Pets Uploaded">
-              Pets Upload
+              {uploadedPet.length == 0 && <div>Loading...</div>}
+              {uploadedPet.length != 0 &&
+                uploadedPet.map((elmt) => {
+                  return (
+                    <Accordion>
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header>
+                          Pet Name: {` ${elmt.name}, Type: ${elmt.type}`}
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <div class="container-fluid row">
+                            <div class="col-2">
+                              <img
+                                src={elmt.imageUrl}
+                                alt=""
+                                style={{ width: "100%" }}
+                              />
+                            </div>
+                            <div class="col-10 mt-1">
+                              <h4> Name: {elmt.name} </h4>
+
+                              <p> Age: {elmt.age}</p>
+                              <p>Additional Information: {elmt.additional}</p>
+                              <Link to={`/PetInformation/${elmt._id}`}>
+                                <Button class="btn btn-outline-primary">
+                                  Know More
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  );
+                })}
             </Tab>
             <Tab eventKey="adopted" title="Adopted">
               Pets Adopted
@@ -385,12 +434,11 @@ let Profile = ()=>{
                                   id={`${elmt._id}`}
                                   onDoubleClick={onDeleteProfile}
                                   data-id={`${elmt._id}`}
-                             
                                 >
                                   Delete Profile
                                 </button>
 
-                                {isAdmin && elmt.isAdmin == 0 && (
+                                {/* {isAdmin && elmt.isAdmin == 0 && (
                                   <button
                                     class="btn btn-success m-1 mt-2"
                                     data-id={`${elmt._id}`}
@@ -400,7 +448,7 @@ let Profile = ()=>{
                                   >
                                     Make Admin
                                   </button>
-                                )}
+                                )} */}
                               </div>
                             </div>
                           </Accordion.Body>
@@ -441,11 +489,14 @@ let Profile = ()=>{
                                     Know More
                                   </Button>
                                 </Link>
-                                <a href="/deletePet?id=<%= animals[index]._id %>">
-                                  <Button class="btn btn-danger">
-                                    Delete Pet Data
-                                  </Button>
-                                </a>
+
+                                <Button
+                                  class="btn btn-danger"
+                                  data-id={`${elmt._id}`}
+                                  onDoubleClick={onDeletePet}
+                                >
+                                  Delete Pet Data
+                                </Button>
                               </div>
                             </div>
                           </Accordion.Body>
@@ -455,6 +506,7 @@ let Profile = ()=>{
                   })}
               </Tab>
             )}
+
             {isAdmin && (
               <Tab eventKey="allblogs" title="All Blogs">
                 {totalBlog.length == 0 && <div>Loading...</div>}
@@ -482,16 +534,19 @@ let Profile = ()=>{
                                   {elmt["description"].substring(0, 200) +
                                     "..."}{" "}
                                 </p>
-                                <a href="http://localhost:3000/Pet?id=<%= animals[index]._id %>">
+                                <Link to={`/BlogRead/${elmt._id}`}>
                                   <Button class="btn btn-outline-primary">
                                     Know More
                                   </Button>
-                                </a>
-                                <a href="/deletePet?id=<%= animals[index]._id %>">
-                                  <Button class="btn btn-danger">
-                                    Delete Pet Data
-                                  </Button>
-                                </a>
+                                </Link>
+
+                                <Button
+                                  data-id={`${elmt._id}`}
+                                  class="btn btn-danger"
+                                  onDoubleClick={onDeleteBlog}
+                                >
+                                  Delete Blog Data
+                                </Button>
                               </div>
                             </div>
                           </Accordion.Body>

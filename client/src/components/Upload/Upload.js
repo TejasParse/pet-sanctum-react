@@ -3,11 +3,23 @@ import EmptyPic from "./empty_profile.webp"
 import { useState } from "react";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 
 let Upload = (props) => {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    let isLoggedIn = useSelector((state) => state.isLoggedIn);
+
+
+    let LoginProfile = useSelector((state) => state.LoginProfile);
+
+    let isAdmin = useSelector((state) => state.isAdmin);
 
     const [show, setShow] = useState(false);
 
@@ -15,8 +27,6 @@ let Upload = (props) => {
     const handleShow = () => setShow(true);
 
     const [showImage, changeShowImage] = useState(EmptyPic); 
-
-    const navigate = useNavigate();
 
     let [formInput, changeFormInput] = useState({
         type: "Dog",
@@ -37,7 +47,9 @@ let Upload = (props) => {
 
     let FormSubmitHandler = (event) => {
         event.preventDefault();
-
+        if (!isLoggedIn) {
+          navigate("/Login");
+        }
         handleShow(true);
 
     };
@@ -70,7 +82,7 @@ let Upload = (props) => {
 
         axios
           .post(
-            `${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet`,
+            `${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet/${LoginProfile._id}`,
             formdata1
           )
           .then((res) => {
