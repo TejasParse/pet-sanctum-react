@@ -27,6 +27,9 @@
     "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
-    "mocha": "^10.2.0"
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.2.0",
+    "sinon": "^15.0.4"
   }
 }

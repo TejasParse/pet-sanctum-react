@@ -16,7 +16,7 @@ const connectDb = require("./config/db");
 const swaggerJSDoc = require("swagger-jsdoc");
 connectDb();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 
 const options = {
@@ -66,6 +66,6 @@ app.get("*", (req,res)=>{
     });
 });
 
-app.listen(PORT, ()=>{
+module.exports = app.listen(PORT, ()=>{
     console.log(`Listening to PORT ${PORT}`);
 });
