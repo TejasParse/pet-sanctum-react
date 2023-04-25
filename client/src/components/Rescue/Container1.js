@@ -5,6 +5,7 @@ import { useState } from "react";
 import EmptyPic from "./empty_profile.webp";
 
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 const Container1 = (props) => {
     
@@ -14,6 +15,8 @@ const Container1 = (props) => {
     const handleShow = () => setShow(true);
 
     const [showImage, changeShowImage] = useState(EmptyPic); 
+
+    let LoginProfile = useSelector((state) => state.LoginProfile);
 
     const navigate = useNavigate();
 
@@ -68,7 +71,7 @@ const Container1 = (props) => {
       console.log(formInput1);
 
       axios
-        .post(`${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet`, formdata1)
+        .post(`${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet/${LoginProfile._id}`, formdata1)
         .then((res) => {
           console.log(res);
           navigate(`/PetInformation/${res.data.data._id}`);

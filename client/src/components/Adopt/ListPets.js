@@ -7,9 +7,13 @@ let ListPets = (props) => {
             {
                 props.dataShow.map((elmt, index) => {
 
-                    return (
-                        <PetCard key={index} data={elmt} />
-                    )
+             
+                        return (
+    
+                            <PetCard key={index} data={elmt} />
+                        )
+            
+
 
                 })
             }

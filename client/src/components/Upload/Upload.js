@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 
 let Upload = (props) => {
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     let isLoggedIn = useSelector((state) => state.isLoggedIn);

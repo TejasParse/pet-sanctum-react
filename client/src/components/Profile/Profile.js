@@ -1,6 +1,6 @@
 import "./Profile.css"
 import { Tabs, Tab, Accordion, Button, Modal } from "react-bootstrap"; 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom" 
 import axios from "axios"
 import EmptyProfile from "./images/empty_profile.webp"
@@ -28,7 +28,7 @@ let Profile = ()=>{
 
     let LoginProfile = useSelector((state=> state.LoginProfile ));
   
-    let isAdmin = useSelector((state=> state.isAdmin));
+    let isAdmin = LoginProfile.isAdmin;
     
     let onClickLogout = (event)=>{
         dispatch(
@@ -40,16 +40,39 @@ let Profile = ()=>{
     let [totalPet, changePetData] = useState([]);
     let [totalBlog, changeBlogData] = useState([]);
     let [totalProfile, changeProfileData] = useState([]);
-
+    let [totalAdopted, changeAdoptedData] = useState([]);
+    
+    
     let [uploadedPet, changeUploadedPet] = useState([]);
+    let [adoptedPet, changeAdoptedPet] = useState([]);
+    let [emptyUploaded, changeUploaded] = useState(0);
+    let [emptyAdopted, changeAdopted] = useState(0);
 
     useEffect(()=>{
       axios
         .get(`${process.env.REACT_APP_SERVER_LINK}/api/user/rescuedPets/${LoginProfile._id}`)
         .then((res) => {
           console.log(res.data);
-
+          if (res.data.data.length == 0) {
+            changeUploaded(1);
+          }
           changeUploadedPet(res.data.data);
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, [])
+
+    useEffect(()=>{
+      axios
+        .get(`${process.env.REACT_APP_SERVER_LINK}/api/user/adoptedPets/${LoginProfile._id}`)
+        .then((res) => {
+          console.log(res.data);
+          if(res.data.data.length==0) {
+            changeAdopted(1);
+          }
+          changeAdoptedPet(res.data.data);
 
         })
         .catch((err) => {
@@ -105,6 +128,21 @@ let Profile = ()=>{
 
     },[])
 
+    useEffect(()=>{
+        
+        axios
+          .get(`${process.env.REACT_APP_SERVER_LINK}/api/pet/totalAdopted`)
+          .then((res) => {
+            console.log(res.data, "idhar");
+
+            changeAdoptedData(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+    },[])
+
     let onDeleteProfile = (event)=>{
         axios
           .delete(`${process.env.REACT_APP_SERVER_LINK}/api/user/${event.target.getAttribute("data-id")}`)
@@ -152,6 +190,39 @@ let Profile = ()=>{
         });
     }
 
+    const oldP = useRef();
+    const newP = useRef();
+    const newP1 = useRef();
+
+    const onChangePassword = (event)=>{
+        if(newP.current.value !== newP1.current.value) {
+          return alert("Passwords not Matching");
+        }
+
+        console.log(oldP.current.value);
+        console.log(newP.current.value);
+        console.log(newP1.current.value);
+
+        axios
+          .post(
+            `${
+              process.env.REACT_APP_SERVER_LINK
+            }/api/user/passwordChange/${LoginProfile._id}`, {
+              oldPassword: oldP.current.value,
+              newPassword: newP.current.value,
+              newPassword1: newP1.current.value
+            }
+          )
+          .then((res) => {
+
+            alert(res.data.message)
+
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+    }
 
     return (
       <div className="container-lg p-3" id="Mainbox">
@@ -172,8 +243,8 @@ let Profile = ()=>{
           <div className="col-lg-9 col-md-6 p-3">
             <h2>{LoginProfile.fname + " " + LoginProfile.lname}</h2>
             <p className="mb-1">
-              {isAdmin && "Admin"}
-              {!isAdmin && "User"}
+              {isAdmin == 1 && "Admin"}
+              {isAdmin == 0 && "User"}
             </p>
             <p className="fst-italic">Joined Feb 2020</p>
 
@@ -191,88 +262,18 @@ let Profile = ()=>{
             justify
           >
             <Tab eventKey="edit" title="Edit Profile Info">
-              <form
-                className="row g-3 mt-1"
-                method="post"
-                action="/editProfileInfo?id=<%= LoginProfile._id %>"
-                enctype="multipart/form-data"
-              >
-                <div className="col-12 input-group mb-3">
-                  <input
-                    type="file"
-                    className="form-control"
-                    id="inputGroupFile01"
-                    accept="image/*"
-                    onchange="loadFile(event)"
-                    name="ProfileImage"
-                  />
-                </div>
-                <div className="col-6 form-floating mb-2">
+              <form className="row g-3 mt-1">
+                <div className="input-group mb-2 col-6">
                   <FloatingLabel
                     controlId="floatingInput"
-                    label="First Name"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      defaultValue={LoginProfile.fname}
-                      placeholder="First Name"
-                    />
-                  </FloatingLabel>
-                </div>
-                <div className="col-6 form-floating mb-2">
-                  <FloatingLabel
-                    controlId="floatingInput"
-                    label="Last Name"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      defaultValue={LoginProfile.lname}
-                      placeholder="Last Name"
-                    />
-                  </FloatingLabel>
-                </div>
-                <div className="col-6 form-floating mb-2">
-                  <FloatingLabel
-                    controlId="floatingInput"
-                    label="Username"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      defaultValue={LoginProfile.username}
-                      placeholder="Last Name"
-                    />
-                  </FloatingLabel>
-                </div>
-                <div className="col-md-6 form-floating mb-2">
-                  <FloatingLabel
-                    controlId="floatingInput"
-                    label="Email Adress"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      defaultValue={LoginProfile.email}
-                      placeholder="Last Name"
-                    />
-                  </FloatingLabel>
-                </div>
-                <div className="input-group mb-3 col-6">
-                  <FloatingLabel
-                    controlId="floatingInput"
-                    label="Phone Number"
+                    label="Old Password"
                     className="mb-3 w-100"
                   >
                     <Form.Control
-                      type="tel"
+                      type="password"
                       required={true}
-                      defaultValue={LoginProfile.phone}
+                      defaultValue={""}
+                      ref={oldP}
                       placeholder="Last Name"
                     />
                   </FloatingLabel>
@@ -280,75 +281,40 @@ let Profile = ()=>{
                 <div className="input-group mb-2 col-6">
                   <FloatingLabel
                     controlId="floatingInput"
-                    label="Password"
+                    label="New Password"
                     className="mb-3 w-100"
                   >
                     <Form.Control
                       type="password"
                       required={true}
-                      defaultValue={LoginProfile.password}
+                      defaultValue={""}
+                      ref={newP}
                       placeholder="Last Name"
                     />
                   </FloatingLabel>
                 </div>
-                <div className="col-12 form-floating mb-2">
+                <div className="input-group mb-2 col-6">
                   <FloatingLabel
                     controlId="floatingInput"
-                    label="Address"
-                    className="mb-3"
+                    label="Confirm New Password"
+                    className="mb-3 w-100"
                   >
                     <Form.Control
-                      type="text"
+                      type="password"
                       required={true}
-                      defaultValue={LoginProfile.address}
+                      defaultValue={""}
+                      ref={newP1}
                       placeholder="Last Name"
                     />
                   </FloatingLabel>
                 </div>
-                <div className="col-md-6 form-floating mb-2">
-                  <FloatingLabel
-                    controlId="floatingInput"
-                    label="City"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      defaultValue={LoginProfile.city}
-                      placeholder="Last Name"
-                    />
-                  </FloatingLabel>
-                </div>
-                <div className="col-md-4 form-floating mb-2">
-                  <FloatingLabel
-                    controlId="floatingInput"
-                    label="State"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      defaultValue={LoginProfile.state}
-                      placeholder="Last Name"
-                    />
-                  </FloatingLabel>
-                </div>
-                <div className="col-md-2 form-floating mb-2">
-                  <FloatingLabel
-                    controlId="floatingInput"
-                    label="Zip Code"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      defaultValue={LoginProfile.zip}
-                      placeholder="Last Name"
-                    />
-                  </FloatingLabel>
-                </div>
+
                 <div className="col-12">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={onChangePassword}
+                  >
                     Edit
                   </button>
                 </div>
@@ -356,7 +322,10 @@ let Profile = ()=>{
               </form>
             </Tab>
             <Tab eventKey="uploaded" title="Pets Uploaded">
-              {uploadedPet.length == 0 && <div>Loading...</div>}
+              {uploadedPet.length == 0 && emptyUploaded == 0 && (
+                <div>Loading...</div>
+              )}
+              {emptyUploaded == 1 && <div>No Pets Uploaded!</div>}
               {uploadedPet.length != 0 &&
                 uploadedPet.map((elmt) => {
                   return (
@@ -393,10 +362,51 @@ let Profile = ()=>{
                 })}
             </Tab>
             <Tab eventKey="adopted" title="Adopted">
-              Pets Adopted
+              {adoptedPet.length == 0 && emptyAdopted == 0 && (
+                <div>Loading...</div>
+              )}
+              {emptyAdopted == 1 && (
+                <div>
+                  No Pets Adopted! Please Adopt pets and help the community!
+                </div>
+              )}
+              {adoptedPet.length != 0 &&
+                adoptedPet.map((elmt) => {
+                  return (
+                    <Accordion>
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header>
+                          Pet Name: {` ${elmt.name}, Type: ${elmt.type}`}
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <div class="container-fluid row">
+                            <div class="col-2">
+                              <img
+                                src={elmt.imageUrl}
+                                alt=""
+                                style={{ width: "100%" }}
+                              />
+                            </div>
+                            <div class="col-10 mt-1">
+                              <h4> Name: {elmt.name} </h4>
+
+                              <p> Age: {elmt.age}</p>
+                              <p>Additional Information: {elmt.additional}</p>
+                              <Link to={`/PetInformation/${elmt._id}`}>
+                                <Button class="btn btn-outline-primary">
+                                  Know More
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  );
+                })}
             </Tab>
 
-            {isAdmin && (
+            {isAdmin == 1 && (
               <Tab eventKey="allprofiles" title="All Profiles">
                 {totalProfile.length == 0 && <div>Loading...</div>}
                 {totalProfile.length != 0 &&
@@ -459,7 +469,7 @@ let Profile = ()=>{
               </Tab>
             )}
 
-            {isAdmin && (
+            {isAdmin == 1 && (
               <Tab eventKey="allpets" title="All Pets">
                 {totalPet.length == 0 && <div>Loading...</div>}
                 {totalPet.length != 0 &&
@@ -507,7 +517,7 @@ let Profile = ()=>{
               </Tab>
             )}
 
-            {isAdmin && (
+            {isAdmin == 1 && (
               <Tab eventKey="allblogs" title="All Blogs">
                 {totalBlog.length == 0 && <div>Loading...</div>}
                 {totalBlog.length != 0 &&
@@ -547,6 +557,46 @@ let Profile = ()=>{
                                 >
                                   Delete Blog Data
                                 </Button>
+                              </div>
+                            </div>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </Accordion>
+                    );
+                  })}
+              </Tab>
+            )}
+            {isAdmin == 1 && (
+              <Tab eventKey="alladoptedpets" title="All Adopted Pets">
+                {totalAdopted.length == 0 && <div>Loading...</div>}
+                {totalAdopted.length != 0 &&
+                  totalAdopted.map((elmt) => {
+                    return (
+                      <Accordion>
+                        <Accordion.Item eventKey="0">
+                          <Accordion.Header>
+                            Pet Name: {` ${elmt.name}, Type: ${elmt.type}`}
+                          </Accordion.Header>
+                          <Accordion.Body>
+                            <div class="container-fluid row">
+                              <div class="col-2">
+                                <img
+                                  src={elmt.imageUrl}
+                                  alt=""
+                                  style={{ width: "100%" }}
+                                />
+                              </div>
+                              <div class="col-10 mt-1">
+                                <h4> Name: {elmt.name} </h4>
+
+                                <p> Age: {elmt.age}</p>
+                                <p>Additional Information: {elmt.additional}</p>
+                                <Link to={`/PetInformation/${elmt._id}`}>
+                                  <Button class="btn btn-outline-primary">
+                                    Know More
+                                  </Button>
+                                </Link>
+
                               </div>
                             </div>
                           </Accordion.Body>

@@ -44,6 +44,7 @@ const SignUp = (props) => {
     formdata1.append("password", formInput1.password);
     formdata1.append("isAdmin", -1);
 
+    alert("Please wait while we update you about your account!")
 
     axios
       .post(`${process.env.REACT_APP_SERVER_LINK}/api/user/signup`, formdata1)
