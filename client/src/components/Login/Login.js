@@ -6,6 +6,9 @@ import { authActions } from "../../store/index"
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
+import { toast } from 'react-toastify';
+import { RingLoader, BarLoader, ClipLoader } from "react-spinners"
+
 import { getBlur, getFocus, getBlur1, getFocus1, show, show1 } from "./sideEffect_Login";
 
 export default function Login() {
@@ -13,13 +16,15 @@ export default function Login() {
   const [pwd, setPwd] = useState('');
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [show, setShow] = useState(false);
 
   let onLogin = (event) => {
     event.preventDefault();
-
+    setIsLoading(true)
     console.log(username, pwd);
 
     axios
@@ -29,6 +34,7 @@ export default function Login() {
       })
       .then((res) => {
         console.log(res);
+        setIsLoading(false)
         let response = res.data;
         if (response.status == 200) {
           dispatch(
@@ -39,12 +45,35 @@ export default function Login() {
               LoginProfile: response.LoginDetails,
             }) // Inside (), dictionary used (action.payload.username)\
           );
+          toast.success(`Login Successful!`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           navigate("/");
         } else {
+          
           setShow(true);
         }
       })
       .catch((err) => {
+        setIsLoading(false)
+        console.log(err);
+        toast.info(`${err?.response?.data?.message || "Server Error"}`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         console.log(err);
       });
 
@@ -52,11 +81,11 @@ export default function Login() {
 
   return (
     <>
-      {show &&
+      {/* {show &&
         <Alert key={"danger"} variant={"danger"} onClose={() => setShow(false)} dismissible>
           Please Enter a valid username and password
         </Alert>
-      }
+      } */}
       <div className="container_login">
         <div className="page_login">
           <div className="image_login">
@@ -139,6 +168,14 @@ export default function Login() {
                   *Forgot your password?
                 </a>
                 <input type="submit" id="btn_login" value="SIGN IN" />
+                <div className="mt-2">
+                  <BarLoader
+                    color="#000"
+                    height={4}
+                    width={100}
+                    loading={isLoading}
+                  />
+                </div>
               </div>
             </form>
           </div>

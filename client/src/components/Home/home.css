@@ -163,9 +163,6 @@ html {
     color: var(--white-color);
 }
 
-
-<!--Navbar 
-
 .navbar-toggler:focus {
     outline: unset;
     border: unset;

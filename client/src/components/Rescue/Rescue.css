@@ -6,7 +6,6 @@
     height: 150px;
     width: 150px;
     transition: all 0.5s ease;
-    margin-left: 60px;
 }
 
 .card1 {
@@ -23,9 +22,6 @@
     border-color: #e5345b !important;
 }
 
-.padding {
-    padding: 3rem !important;
-  }
 
 .user-card-full {
     overflow: hidden;
@@ -39,14 +35,7 @@
     background: linear-gradient(to right,#f29263, #e5345b );
 }
 
-.user-profile {
-    padding: 20px 0;
-  }
 
   .card-block {
     padding: 1.25rem;
   }
-
-  .m-b-25 {
-  margin-bottom: 25px;
-}

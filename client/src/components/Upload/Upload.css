@@ -6,7 +6,6 @@
     height: 150px;
     width: 150px;
     transition: all 0.5s ease;
-    margin-left: 60px;
 }
 
 .card1 {
@@ -22,10 +21,6 @@
     color: #fff !important;
     border-color: #e5345b !important;
 }
-
-.padding {
-    padding: 3rem !important;
-  }
 
 .user-card-full {
     overflow: hidden;
@@ -46,7 +41,3 @@
   .card-block {
     padding: 1.25rem;
   }
-
-  .m-b-25 {
-  margin-bottom: 25px;
-}

@@ -3,9 +3,10 @@ import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import { useState } from "react";
 import EmptyPic from "./empty_profile.webp";
-
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import { toast } from 'react-toastify';
+import { RingLoader, BarLoader, ClipLoader } from "react-spinners"
 
 const Container1 = (props) => {
     
@@ -14,11 +15,30 @@ const Container1 = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    let [isLoading, setIsLoading] = useState(false);
+ 
     const [showImage, changeShowImage] = useState(EmptyPic); 
 
     let LoginProfile = useSelector((state) => state.LoginProfile);
+    console.log(LoginProfile);
 
     const navigate = useNavigate();
+
+    if(!LoginProfile._id) {
+      toast.info(`Please Login`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      navigate("/login")
+    }
+
 
     let [formInput, changeFormInput] = useState({
         type: "Dog",
@@ -45,6 +65,9 @@ const Container1 = (props) => {
     };
 
     let PostData = () => {
+
+      setIsLoading(true);
+
       let formInput1 = {
         ...formInput,
       };
@@ -74,9 +97,31 @@ const Container1 = (props) => {
         .post(`${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet/${LoginProfile._id}`, formdata1)
         .then((res) => {
           console.log(res);
+          setIsLoading(false);
+          toast.success(`Pet Uploaded Successfully!`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           navigate(`/PetInformation/${res.data.data._id}`);
         })
         .catch((err) => {
+          setIsLoading(false);
+          toast.error(`Error: ${err.message}`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           console.log(err);
         });
     };
@@ -126,10 +171,10 @@ const Container1 = (props) => {
                     id="form"
                   >
                     <div className="row m-l-0 m-r-0 form-background">
-                      <div className="col-sm-4 bg-c-lite-green user-profile d-flex justify-content-center align-items-center">
-                        <div className="card-block text-center text-white">
+                      <div className="col-sm-4 bg-c-lite-green user-profile d-flex flex-column justify-content-center align-items-center">
+                        <div className="card-block text-center text-white d-flex flex-column justify-content-center align-items-center">
                           <div
-                            className="m-b-25 pet-img"
+                            className="pet-img"
                             style={{
                               backgroundImage: `url(${showImage})`,
                             }}
@@ -152,13 +197,13 @@ const Container1 = (props) => {
                       </div>
                       <div className="col-sm-8 form-back">
                         <div className="card-block">
-                          <h6 className="m-b-20 p-b-5 b-b-default f-w-600">
+                          <h6 className="mb-3 pb-2 b-b-default f-w-600">
                             Enter Stray Details
                           </h6>
 
                           <div className="row">
-                            <div className="col-sm-6">
-                              <p className="m-b-5 f-w-600">Name of Stray</p>
+                            <div className="col-sm-6 mb-3">
+                              <p className="mb-1 f-w-600">Name of Stray</p>
                               <input
                                 className="form-control form-control-sm"
                                 type="text"
@@ -169,8 +214,8 @@ const Container1 = (props) => {
                                 onChange={HandleInputChange}
                               />
                             </div>
-                            <div className="col-sm-6">
-                              <p className="m-b-5 f-w-600">Animal</p>
+                            <div className="col-sm-6 mb-3">
+                              <p className="mb-1 f-w-600">Animal</p>
                               <select
                                 className="form-select form-select-sm"
                                 aria-label="Default select example"
@@ -187,8 +232,8 @@ const Container1 = (props) => {
                             </div>
                           </div>
                           <div className="row">
-                            <div className="col-sm-6">
-                              <p className="m-b-5 f-w-600">Breed</p>
+                            <div className="col-sm-6 mb-3">
+                              <p className="mb-1 f-w-600">Breed</p>
                               <input
                                 className="form-control form-control-sm"
                                 type="text"
@@ -200,8 +245,8 @@ const Container1 = (props) => {
                                 onChange={HandleInputChange}
                               />
                             </div>
-                            <div className="col-sm-6">
-                              <p className="m-b-5 f-w-600">Locality</p>
+                            <div className="col-sm-6 mb-3">
+                              <p className="mb-1 f-w-600">Locality</p>
                               <input
                                 className="form-control form-control-sm"
                                 type="text"
@@ -214,8 +259,8 @@ const Container1 = (props) => {
                             </div>
                           </div>
                           <div className="row">
-                            <div className="col-sm-6">
-                              <p className="m-b-5 f-w-600">Phone</p>
+                            <div className="col-sm-6 mb-3">
+                              <p className="mb-1 f-w-600">Phone</p>
                               <input
                                 className="form-control form-control-sm"
                                 type="tel"
@@ -226,8 +271,8 @@ const Container1 = (props) => {
                                 onChange={HandleInputChange}
                               />
                             </div>
-                            <div className="col-sm-6">
-                              <p className="m-b-5 f-w-600">Pincode</p>
+                            <div className="col-sm-6 mb-3">
+                              <p className="mb-1 f-w-600">Pincode</p>
                               <input
                                 className="form-control form-control-sm"
                                 type="text"
@@ -243,7 +288,7 @@ const Container1 = (props) => {
                           </div>
                         </div>
 
-                        <h6 className="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">
+                        <h6 className="mb-2 p-b-5 b-b-default f-w-600">
                           Any Additional Information
                         </h6>
                         <div className="row">
@@ -276,6 +321,12 @@ const Container1 = (props) => {
                         </Button>
                         <Button variant="success" onClick={PostData}>
                           Yes
+                          <BarLoader
+                              color="#fff"
+                              height={4}
+                              width={25}
+                              loading={isLoading}
+                          />
                         </Button>
                       </Modal.Footer>
                     </Modal>

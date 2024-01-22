@@ -5,6 +5,9 @@ import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
+import { toast } from 'react-toastify';
+import { RingLoader, BarLoader, ClipLoader } from "react-spinners"
+
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
@@ -15,8 +18,24 @@ let Upload = (props) => {
 
     let isLoggedIn = useSelector((state) => state.isLoggedIn);
 
+    let [isLoading, setIsLoading] = useState(false);
 
     let LoginProfile = useSelector((state) => state.LoginProfile);
+    if (!LoginProfile._id) {
+        toast.info(`Please Login`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+
+        navigate("/login")
+    }
+
 
     let isAdmin = useSelector((state) => state.isAdmin);
 
@@ -25,7 +44,7 @@ let Upload = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [showImage, changeShowImage] = useState(EmptyPic); 
+    const [showImage, changeShowImage] = useState(EmptyPic);
 
     let [formInput, changeFormInput] = useState({
         type: "Dog",
@@ -47,13 +66,16 @@ let Upload = (props) => {
     let FormSubmitHandler = (event) => {
         event.preventDefault();
         if (!isLoggedIn) {
-          navigate("/Login");
+            navigate("/Login");
         }
         handleShow(true);
 
     };
 
-    let PostData = ()=>{
+    let PostData = () => {
+
+        setIsLoading(true);
+
         let formInput1 = {
             ...formInput,
         }
@@ -80,17 +102,39 @@ let Upload = (props) => {
         console.log(formInput1);
 
         axios
-          .post(
-            `${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet/${LoginProfile._id}`,
-            formdata1
-          )
-          .then((res) => {
-            console.log(res);
-            navigate(`/PetInformation/${res.data.data._id}`);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+            .post(
+                `${process.env.REACT_APP_SERVER_LINK}/api/pet/addPet/${LoginProfile._id}`,
+                formdata1
+            )
+            .then((res) => {
+                console.log(res);
+                setIsLoading(false);
+                toast.success(`Pet Uploaded Successfully!`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                navigate(`/PetInformation/${res.data.data._id}`);
+            })
+            .catch((err) => {
+                setIsLoading(false);
+                toast.error(`Error: ${err.message}`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                console.log(err);
+            });
     }
 
     let HandleImageChange = (event) => {
@@ -135,9 +179,8 @@ let Upload = (props) => {
                             <div className="card user-card-full">
                                 <form action="" onSubmit={FormSubmitHandler} method="post" id="form">
                                     <div className="row m-l-0 m-r-0">
-                                        <div
-                                            className="col-sm-4 bg-c-lite-green user-profile d-flex justify-content-center align-items-center">
-                                            <div className="card-block text-center text-white">
+                                        <div className="col-sm-4 bg-c-lite-green user-profile d-flex flex-column justify-content-center align-items-center">
+                                            <div className="card-block text-center text-white d-flex flex-column justify-content-center align-items-center">
                                                 <div className="m-b-25 pet-img" style={{
                                                     backgroundImage: `url(${showImage})`
                                                 }}> </div>
@@ -152,12 +195,12 @@ let Upload = (props) => {
                                             <div className="card-block">
                                                 <h6 className="h6_tejas m-b-20 p-b-5 b-b-default f-w-600">Enter Pet Profile</h6>
                                                 <div className="row">
-                                                    <div className="col-sm-6">
-                                                        <p className="m-b-5 f-w-600">Name of Pet</p>
+                                                    <div className="col-sm-6 mb-3">
+                                                        <p className="mb-1 f-w-600">Name of Pet</p>
                                                         <input className="form-control form-control-sm" type="text" placeholder="Enter here" value={formInput.name || ""} name="name" required id="petName" onChange={HandleInputChange} />
                                                     </div>
-                                                    <div className="col-sm-6">
-                                                        <p className="m-b-5 f-w-600">Animal</p>
+                                                    <div className="col-sm-6 mb-3">
+                                                        <p className="mb-1 f-w-600">Animal</p>
                                                         <select value={formInput.type || "Dog"} className="form-select form-select-sm" onChange={HandleInputChange} aria-label="Default select example" name="type">
 
                                                             <option value="Dog">Dog</option>
@@ -168,16 +211,16 @@ let Upload = (props) => {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-sm-6">
-                                                        <p className="m-b-5 f-w-600">Name of Breed</p>
+                                                    <div className="col-sm-6 mb-3">
+                                                        <p className="mb-1 f-w-600">Name of Breed</p>
                                                         <input className="form-control form-control-sm" type="text" value={formInput.breed || ""} onChange={HandleInputChange} placeholder="Enter here" name="breed" id="breed" required />
                                                     </div>
-                                                    <div className="col-sm-3">
-                                                        <p className="m-b-5 f-w-600">Age</p>
+                                                    <div className="col-sm-3 mb-3">
+                                                        <p className="mb-1 f-w-600">Age</p>
                                                         <input className="form-control form-control-sm" min={"0"} type="number" value={formInput.age || "1"} onChange={HandleInputChange} placeholder="Enter here" name="age" />
                                                     </div>
-                                                    <div className="col-sm-3">
-                                                        <p className="m-b-5 f-w-600">Sex</p>
+                                                    <div className="col-sm-3 mb-3">
+                                                        <p className="mb-1 f-w-600">Sex</p>
                                                         <select value={formInput.sex || "Male"} onChange={HandleInputChange} name="sex" id="sex" className="form-control form-control-sm">
                                                             <option value="Male">Male</option>
                                                             <option value="Female">Female</option>
@@ -185,8 +228,8 @@ let Upload = (props) => {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-sm-6">
-                                                        <p className="m-b-5 f-w-600">Good with Humans</p>
+                                                    <div className="col-sm-6 mb-3">
+                                                        <p className="mb-1 f-w-600">Good with Humans</p>
                                                         <div className="form-check form-check-inline">
                                                             <input className="form-check-input" onChange={HandleInputChange} type="radio" id="inlineRadio1" value="Yes" name="otherhumans" />
                                                             <label className="form-check-label" htmlFor="inlineRadio1">Yes</label>
@@ -196,8 +239,8 @@ let Upload = (props) => {
                                                             <label className="form-check-label" htmlFor="inlineRadio2">No</label>
                                                         </div>
                                                     </div>
-                                                    <div className="col-sm-6">
-                                                        <p className="m-b-5 f-w-600">Good with Other Pets</p>
+                                                    <div className="col-sm-6 mb-3">
+                                                        <p className="mb-1 f-w-600">Good with Other Pets</p>
                                                         <div className="form-check form-check-inline">
                                                             <input className="form-check-input" onChange={HandleInputChange} type="radio" id="inlineRadio11" value="Yes" name="otherpets" />
                                                             <label className="form-check-label" htmlFor="inlineRadio11">Yes</label>
@@ -209,8 +252,8 @@ let Upload = (props) => {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-sm-6">
-                                                        <p className="m-b-5 f-w-600">Trained</p>
+                                                    <div className="col-sm-6 mb-3">
+                                                        <p className="mb-1 f-w-600">Trained</p>
                                                         <div className="form-check form-check-inline">
                                                             <input className="form-check-input" type="radio" id="inlineRadio12" onChange={HandleInputChange} value="Yes" name="trained" />
                                                             <label className="form-check-label" htmlFor="inlineRadio12">Yes</label>
@@ -220,8 +263,8 @@ let Upload = (props) => {
                                                             <label className="form-check-label" htmlFor="inlineRadio22">No</label>
                                                         </div>
                                                     </div>
-                                                    <div className="col-sm-6">
-                                                        <p className="m-b-5 f-w-600">Vaccinated</p>
+                                                    <div className="col-sm-6 mb-3">
+                                                        <p className="mb-1 f-w-600">Vaccinated</p>
                                                         <div className="form-check form-check-inline">
                                                             <input className="form-check-input" type="radio" id="inlineRadio13" onChange={HandleInputChange} value="Yes" name="vaccinated" />
                                                             <label className="form-check-label" htmlFor="inlineRadio13">Yes</label>
@@ -256,6 +299,12 @@ let Upload = (props) => {
                                             </Button>
                                             <Button variant="success" onClick={PostData}>
                                                 Yes
+                                                <BarLoader
+                                                    color="#fff"
+                                                    height={4}
+                                                    width={25}
+                                                    loading={isLoading}
+                                                />
                                             </Button>
                                         </Modal.Footer>
                                     </Modal>
@@ -265,7 +314,7 @@ let Upload = (props) => {
                     </div>
                 </div>
             </div>
-            
+
         </>
     )
 };

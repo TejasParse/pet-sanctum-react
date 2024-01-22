@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import EmptyPic from "./empty_profile.webp";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
+import { toast } from 'react-toastify';
+import { RingLoader, BarLoader, ClipLoader } from "react-spinners"
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 const SignUp = (props) => {
 
   const [showImage, changeShowImage] = useState(EmptyPic);
+
+  let [isLoading, setIsLoading] = useState(false);
 
   let [formInput, changeFormInput] = useState({});
 
@@ -26,6 +30,7 @@ const SignUp = (props) => {
   };
 
   let PostData = () => {
+    setIsLoading(true);
     let formInput1 = {
       ...formInput,
     };
@@ -44,20 +49,50 @@ const SignUp = (props) => {
     formdata1.append("password", formInput1.password);
     formdata1.append("isAdmin", -1);
 
-    alert("Please wait while we update you about your account!")
-
     axios
       .post(`${process.env.REACT_APP_SERVER_LINK}/api/user/signup`, formdata1)
       .then((res) => {
+        setIsLoading(false);
         let response = res.data;
         console.log(response);
-        if(response.status == 201) {
+        if (response.status == 201) {
+          toast.success(`Profiled Created Successfully!`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           navigate(`/Login`);
         } else {
+          toast.error(`Failed to create Profile! Please try again`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           navigate(`/Signup`);
         }
       })
       .catch((err) => {
+        setIsLoading(false);
+        toast.error(`Error: ${err.message}`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         console.log(err);
       });
   };
@@ -276,7 +311,14 @@ const SignUp = (props) => {
         <div className="col-12">
           <button type="submit" className="btn btn-primary">
             Sign up
+
           </button>
+          <BarLoader
+            color="#000"
+            height={4}
+            width={79}
+            loading={isLoading}
+          />
         </div>
         <div className="col-12"></div>
       </form>

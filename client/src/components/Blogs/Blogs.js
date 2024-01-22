@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { Tabs, Tab, Accordion, Button } from "react-bootstrap";
 import './Blogs.css';
 
+import { toast } from 'react-toastify';
+import { RingLoader, BarLoader, ClipLoader } from "react-spinners"
+
 function Blogs() {
   let [totalBlog, changeBlogData] = useState([]);
   console.log(process.env.REACT_APP_SERVER_LINK);
@@ -17,6 +20,16 @@ function Blogs() {
         changeBlogData(res.data.data);
       })
       .catch((err) => {
+        toast.error(`Error fetching blogs`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         console.log(err);
       });
   }, []);
@@ -42,7 +55,7 @@ function Blogs() {
                 <div className="content_sreekar">
                   <h3> {totalBlog[0].title} </h3>
                   <p>
-                    {totalBlog[0].description.substring(0,36)+"..."}
+                    {totalBlog[0].description.substring(0,120)+"..."}
                     <Link to={`/BlogRead/${totalBlog[0]._id}`}>
                     Read More
                   </Link>
@@ -59,7 +72,7 @@ function Blogs() {
                 <div className="content_sreekar">
                   <h3> {totalBlog[1].title} </h3>
                   <p>
-                    {totalBlog[1].description.substring(0,36)+"..."}
+                    {totalBlog[1].description.substring(0,120)+"..."}
                     <Link to={`/BlogRead/${totalBlog[1]._id}`}>
                     Read More
                   </Link>
@@ -77,7 +90,7 @@ function Blogs() {
                 <div className="content_sreekar">
                   <h3> {totalBlog[2].title} </h3>
                   <p>
-                    {totalBlog[2].description.substring(0,36)+"..."}
+                    {totalBlog[2].description.substring(0,120)+"..."}
                     <Link to={`/BlogRead/${totalBlog[2]._id}`}>
                     Read More
                   </Link>
