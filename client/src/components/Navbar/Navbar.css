@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Single+Day&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&family=Single+Day&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poor+Story&family=Single+Day&display=swap');
+
+.navbarClass {
+    position: sticky;
+    top: 0;
+}

@@ -24,20 +24,7 @@ const Container1 = (props) => {
 
     const navigate = useNavigate();
 
-    if(!LoginProfile._id) {
-      toast.info(`Please Login`, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-
-      navigate("/login")
-    }
+    
 
 
     let [formInput, changeFormInput] = useState({
@@ -65,6 +52,21 @@ const Container1 = (props) => {
     };
 
     let PostData = () => {
+
+      if(!LoginProfile._id) {
+        toast.info(`Please Login`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+  
+        return navigate("/login")
+      }
 
       setIsLoading(true);
 

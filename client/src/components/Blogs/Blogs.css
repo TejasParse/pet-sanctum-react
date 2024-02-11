@@ -21,7 +21,7 @@ background: linear-gradient(34deg, rgba(49,54,152,1) 0%, rgba(18,115,184,1) 49%,
     display : flex;
     align-items : center;
     justify-content : center;  
-    min-height : 600px;
+    min-height : 500px;
 }
 
   

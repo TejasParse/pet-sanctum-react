@@ -21,21 +21,6 @@ let Upload = (props) => {
     let [isLoading, setIsLoading] = useState(false);
 
     let LoginProfile = useSelector((state) => state.LoginProfile);
-    if (!LoginProfile._id) {
-        toast.info(`Please Login`, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-
-        navigate("/login")
-    }
-
 
     let isAdmin = useSelector((state) => state.isAdmin);
 
@@ -65,14 +50,27 @@ let Upload = (props) => {
 
     let FormSubmitHandler = (event) => {
         event.preventDefault();
-        if (!isLoggedIn) {
-            navigate("/Login");
-        }
+        
         handleShow(true);
 
     };
 
     let PostData = () => {
+        
+        if(!LoginProfile._id) {
+            toast.info(`Please Login`, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+      
+            return navigate("/login")
+          }
 
         setIsLoading(true);
 
