@@ -12,28 +12,34 @@ let Navbar1 = (props) => {
     const isAdmin = useSelector(state => state.isAdmin);
 
     const titleFontFamily = {
-        fontFamily: "'Single Day', cursive"
+        fontFamily: "'Single Day', cursive",
+        color: "#F25C05"
     }
 
     const linkFontFamily = {
-        fontFamily: "'Poor Story', system-ui"
+        fontFamily: "'Poor Story', system-ui",
+        color: "black"
     }
 
     const profileActionsFamily = {
-        fontFamily: "'Montserrat', sans-serif"
+        fontFamily: "'Montserrat', sans-serif",
+        color: "blue"
     }
 
     const NewNavbar = () => {
         return (
             <div className="navbarClass">
-                <Navbar sticky="top" collapseOnSelect bg="dark" data-bs-theme="dark" expand="lg" className="bg-body-tertiary shadow-lg">
+                <Navbar sticky="top" collapseOnSelect bg="white" data-bs-theme="dark" expand="lg" className="bg-body-tertiary shadow-lg navbar-back">
                     <Container>
                         <Navbar.Brand>
-                            <Link to={"/"} style={{ textDecoration: "none", ...titleFontFamily }} className="fs-3">
-                                Pet Sanctum
-                            </Link>
+                            <div className="d-flex flex-row align-items-center">
+                                <img src={"/PetSanctumIcon.png"} width={"30px"} className="me-2"/>
+                                <Link to={"/"} style={{ textDecoration: "none", ...titleFontFamily }} className="fs-3 fw-bold">
+                                    Pet Sanctum
+                                </Link>
+                            </div>
                         </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="bg-dark"/>
                         <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="m-auto">
                                 <Nav.Link className="navbar-div">

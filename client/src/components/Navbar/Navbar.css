@@ -6,3 +6,7 @@
     position: sticky;
     top: 0;
 }
+
+.navbar-back {
+    background: linear-gradient(0deg, hsla(0, 0%, 100%, 1) 0%, hsla(0, 0%, 81%, 1) 100%);
+}
