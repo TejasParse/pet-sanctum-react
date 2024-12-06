@@ -275,8 +275,8 @@ let Profile = ()=>{
           <div className="col-lg-9 col-md-6 p-3">
             <h2>{LoginProfile.fname + " " + LoginProfile.lname}</h2>
             <p className="mb-1">
-              {isAdmin == 1 && "Admin"}
-              {isAdmin == 0 && "User"}
+              {isAdmin == 1 ? "Admin" : "User"}
+
             </p>
             <p className="fst-italic">Joined Feb 2020</p>
 
@@ -462,11 +462,11 @@ let Profile = ()=>{
                                 <h3 className="d-inline">
                                   {elmt.fname + " " + elmt.lname + " "}
                                 </h3>
-                                {elmt.isAdmin && (
+                                {elmt.isAdmin ? (
                                   <span class="badge badge-primary bg-primary">
                                     Admin
                                   </span>
-                                )}
+                                ) : <></>}
 
                                 <p class="m-1"> {elmt.email} </p>
                                 <p class="m-1">Adddress: {elmt.address} </p>
