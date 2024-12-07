@@ -32,7 +32,6 @@ let MainApp = (props)=>{
                 <Route path="/BlogRead/:id" element={<BlogRead />} />
                 <Route path="/Contact" element={<Contact/>} />
                 <Route path="/Profile" element={<Profile/>} />
-                {/* TODO: From here */}
                 <Route path="/Blogs" element={<Blogs/>} />
             </Routes>
             <Footer />

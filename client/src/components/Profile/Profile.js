@@ -527,7 +527,7 @@ let Profile = ()=>{
                                 <p> Age: {elmt.age}</p>
                                 <p>Additional Information: {elmt.additional}</p>
                                 <Link to={`/PetInformation/${elmt._id}`}>
-                                  <Button class="btn btn-outline-primary">
+                                  <Button class="btn btn-outline-primary me-3">
                                     Know More
                                   </Button>
                                 </Link>
@@ -577,7 +577,7 @@ let Profile = ()=>{
                                     "..."}{" "}
                                 </p>
                                 <Link to={`/BlogRead/${elmt._id}`}>
-                                  <Button class="btn btn-outline-primary">
+                                  <Button class="btn btn-outline-primary me-3">
                                     Know More
                                   </Button>
                                 </Link>
